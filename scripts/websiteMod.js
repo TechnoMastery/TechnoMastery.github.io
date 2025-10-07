@@ -25,14 +25,14 @@ console.log("dev mod enabled !")
 // pane for user and teams
 if(user == "Minheur") {
     userDiv.innerHTML = `
-        <a href="pages/encode"><button class="buttons button-blue">Encoding (OFF)</button></a><br>
+        <a href="pages/encode"><button class="buttons button-blue", disabled>Encoding (OFF)</button></a><br>
         <a href="pages/profiles/Min_heur2000"><button class="buttons button-red">Your profile</button></a><br>
         <a href="pages/techno-smp/teams/minheur-corp"><button class="buttons button-red">Your TechnoSMP team</button></a><br>
     `
 }
 if(user == "Xako") {
     userDiv.innerHTML = `
-        <a href="pages/encode"><button class="buttons button-blue">Encoding (OFF)</button></a><br>
+        <a href="pages/encode"><button class="buttons button-blue", disabled>Encoding (OFF)</button></a><br>
         <a href="pages/profiles/XaQorix"><button class="buttons button-green">Your profile</button></a><br>
         <a href="pages/techno-smp/teams/xakos-industries"><button class="buttons button-green">Your TechnoSMP team</button></a><br>
     `
