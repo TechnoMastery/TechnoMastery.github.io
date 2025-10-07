@@ -13,6 +13,11 @@
     border-radius: 12px;
   }
 
+  .buttons:disabled {
+    background-color: lightgray;
+    border 2px solid gray;
+  }
+
   .button-red {
     background-color: white; 
     color: black; 
