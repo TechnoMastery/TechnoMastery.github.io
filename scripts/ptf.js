@@ -184,3 +184,5 @@ const badlifecoachMeta = {
     jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/badLifeCoach.json",
     id: "badlifecoach"
 }
+
+buildList(badlifecoachMeta);
