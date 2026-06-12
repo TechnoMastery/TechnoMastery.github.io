@@ -30,7 +30,7 @@ async function buildList(metaData) {
             "There are no source jar for this version.";
         if (hasSources) {
             sourceDl.href = data.releaseLink + "/download/" + modVersion +
-            "/" + jarName + modVersion + "-sources.jar";
+            "/" + data.jarName + modVersion + "-sources.jar";
         }
 
         title.appendChild(name);
@@ -69,7 +69,7 @@ async function buildList(metaData) {
                 "Download" : "There are no Javadoc jar for this version."
             if (hasDocJar) {
                 docDl.href = data.releaseLink + "/download/" + modVersion +
-                "/" + jarName + modVersion + "-javadoc.jar";
+                "/" + data.jarName + modVersion + "-javadoc.jar";
             }
 
             doc.appendChild(docLink);
