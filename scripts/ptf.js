@@ -13,6 +13,7 @@ async function buildList(metaData) {
     const githubLinkA = document.createElement("a");
     githubLinkA.textContent = "Github project page";
     githubLinkA.href = data.link;
+    githubLinkA.target = "_blank";
     githubLinkI.appendChild(githubLinkA);
     div.appendChild(githubLinkI);
 
