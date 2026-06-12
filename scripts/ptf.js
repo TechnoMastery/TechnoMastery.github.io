@@ -149,3 +149,10 @@ const cardLearningMeta = {
 }
 
 buildList(cardLearningMeta);
+
+const encrypModMeta = {
+    jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/encrypMod.json",
+    id: "encrypMod"
+}
+
+buildList(encrypModMeta);
