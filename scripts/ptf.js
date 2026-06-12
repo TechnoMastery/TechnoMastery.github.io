@@ -1,5 +1,6 @@
 const cardLearningLink = "https://technomastery.github.io/PotoFluxAppData/modVersions/cardLearning.json"
 const cardLearningDiv = document.getElementById("modCardLearningVersions")
+console.log(cardLearningDiv)
 
 async function buildList(jsonLink, targetDiv) {
     const res = await fetch(jsonLink);
