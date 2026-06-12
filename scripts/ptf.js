@@ -124,7 +124,7 @@ async function buildList(metaData) {
         const subUl = document.createElement("ul");
         
         const compatTitle = document.createElement("span");
-        compatTitle.textContent = "This version of the mod is compatible with those Potoflux verions:";
+        compatTitle.textContent = "This version of the mod is compatible with those Potoflux versions:";
 
         for (const compat of versionData.compatList) {
             const subLi = document.createElement("li");
