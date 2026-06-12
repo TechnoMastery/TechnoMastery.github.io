@@ -53,7 +53,7 @@ async function buildList(metaData) {
         name.target = "_blank";
 
         // source dl if present
-        const hasSources = versionData.hasSources;
+        const hasSources = versionData.hasSources == null ? true : versionData.hasSources;
         const sourceDl = hasSources ?
             document.createElement("a") :
             document.createElement("i");
@@ -77,8 +77,8 @@ async function buildList(metaData) {
 
         // === javadoc ===
         const doc = document.createElement("span");
-        const hasOnlineDoc = versionData.hasOnlineDoc;
-        const hasDocJar = versionData.hasDocJar;
+        const hasOnlineDoc = versionData.hasOnlineDoc == null ? true : versionData.hasOnlineDoc;
+        const hasDocJar = versionData.hasDocJar == null ? true : versionData.hasDocJar;
 
         if (hasOnlineDoc || hasDocJar) {
 
