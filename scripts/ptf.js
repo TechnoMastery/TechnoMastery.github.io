@@ -171,9 +171,16 @@ const cardLearningMeta = {
 
 buildList(cardLearningMeta);
 
+// encrypmod
 const encrypModMeta = {
     jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/encrypMod.json",
     id: "encrypMod"
 }
 
 buildList(encrypModMeta);
+
+// bad life coach
+const badlifecoachMeta = {
+    jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/badLifeCoach.json",
+    id: "badlifecoach"
+}
