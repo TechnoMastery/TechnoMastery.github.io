@@ -4,6 +4,37 @@ async function buildList(metaData) {
     const res = await fetch(metaData.jsonLink);
     const data = await res.json();
 
+    const div = document.getElementById("mod-" + metaData.id + "-content");
+    div.innerHTML = "";
+
+    // ===== MAIN INFOS =====
+
+    const githubLinkI = document.createElement("i");
+    const githubLinkA = document.createElement("a");
+    githubLinkA.textContent = "Github project page";
+    githubLinkA.href = data.link;
+    githubLinkI.appendChild(githubLinkA);
+    div.appendChild(githubLinkI);
+
+    div.appendChild(document.createElement("br"));
+
+    const creator = document.createElement("span");
+    const creatorTitle = document.createElement("strong");
+    creatorTitle.textContent = "Creator: ";
+    creator.appendChild(creatorTitle);
+    creator.appendChild(document.createTextNode(data.owner));
+
+    div.appendChild(creator);
+
+    div.appendChild(document.createElement("br"));
+
+    // ===== VERSION SYSTEM =====
+
+    const versionsTitle = document.createElement("span");
+    versionsTitle.textContent = "Versions of this mod:";
+
+    div.appendChild(versionsTitle);
+
     const versions = data.tempVersions;
     const rootUl = document.createElement("ul");
 
@@ -17,7 +48,7 @@ async function buildList(metaData) {
         // link to release
         const name = document.createElement("a");
         name.textContent = modVersion;
-        name.href = data.releaseLink + "/tag/" + modVersion + "/";
+        name.href = data.link + "releases/tag/" + modVersion + "/";
         name.target = "_blank";
 
         // source dl if present
@@ -29,7 +60,7 @@ async function buildList(metaData) {
             "Download source code" :
             "There are no source jar for this version.";
         if (hasSources) {
-            sourceDl.href = data.releaseLink + "/download/" + modVersion +
+            sourceDl.href = data.link + "releases/download/" + modVersion +
             "/" + data.jarName + modVersion + "-sources.jar";
         }
 
@@ -68,7 +99,7 @@ async function buildList(metaData) {
             docDl.textContent = hasDocJar ?
                 "Download" : "There are no Javadoc jar for this version."
             if (hasDocJar) {
-                docDl.href = data.releaseLink + "/download/" + modVersion +
+                docDl.href = data.link + "releases/download/" + modVersion +
                 "/" + data.jarName + modVersion + "-javadoc.jar";
             }
 
@@ -105,9 +136,6 @@ async function buildList(metaData) {
         rootUl.appendChild(li);
     }
 
-    // inject
-    const div = document.getElementById("mod-" + metaData.id + "-versions");
-    div.innerHTML = "";
     div.appendChild(rootUl);
 }
 
