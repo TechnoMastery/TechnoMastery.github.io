@@ -34,7 +34,7 @@ async function buildList(metaData) {
         }
 
         title.appendChild(name);
-        title.appendChild(sep);
+        title.appendChild(document.createTextNode(" | "));
         title.appendChild(sourceDl);
 
         li.appendChild(title);
@@ -73,7 +73,7 @@ async function buildList(metaData) {
             }
 
             doc.appendChild(docLink);
-            doc.appendChild(sep);
+            doc.appendChild(document.createTextNode(" | "));
             doc.appendChild(docDl);
 
         } else {
@@ -81,6 +81,8 @@ async function buildList(metaData) {
             fallback.textContent = "There are no Javadoc available for this version.";
             doc.appendChild(fallback);
         }
+
+        li.appendChild(doc);
 
         // ======
 
