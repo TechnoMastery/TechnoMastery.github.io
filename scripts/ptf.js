@@ -81,6 +81,9 @@ async function buildList(metaData) {
         const hasDocJar = versionData.hasDocJar == null ? true : versionData.hasDocJar;
 
         if (hasOnlineDoc || hasDocJar) {
+            // title
+            const docTitle = document.createElement("strong");
+            docTitle.textContent = "Javadoc: ";
 
             // link to doc
             const docLink = hasOnlineDoc ?
@@ -104,6 +107,7 @@ async function buildList(metaData) {
                 "/" + data.jarName + modVersion + "-javadoc.jar";
             }
 
+            doc.appendChild(docTitle);
             doc.appendChild(docLink);
             doc.appendChild(document.createTextNode(" | "));
             doc.appendChild(docDl);
@@ -121,19 +125,36 @@ async function buildList(metaData) {
         li.appendChild(document.createElement("br"));
         
         // === sub ul - compatible ptf version ===
-        const subUl = document.createElement("ul");
-        
-        const compatTitle = document.createElement("span");
-        compatTitle.textContent = "This version of the mod is compatible with those Potoflux versions:";
 
-        for (const compat of versionData.compatList) {
-            const subLi = document.createElement("li");
-            subLi.textContent = compat;
-            subUl.appendChild(subLi);
+        if (versionData.compatList != null) {
+
+            const subUl = document.createElement("ul");
+            
+            const compatTitle = document.createElement("span");
+            compatTitle.textContent = "This version of the mod is compatible with those Potoflux versions:";
+
+            for (const compat of versionData.compatList) {
+                const subLi = document.createElement("li");
+                subLi.textContent = compat;
+                subUl.appendChild(subLi);
+            }
+            li.appendChild(compatTitle);
+            li.appendChild(subUl);
+
+        } else {
+            
+            const noCompat = document.createElement("i")
+            const noCompatTitle = document.createElement("strong");
+            noCompatTitle.textContent = "There are no compatible version specified.";
+
+            noCompat.appendChild(noCompatTitle);
+            noCompat.appendChild(document.createElement("br"));
+            noCompat.appendChild(document.createTextNode("Maybe this mod uses the local compatible version system, or it is only compatible with versions of Potoflux that doesn't feature online version yet."))
+
+            li.appendChild(noCompat);
+
         }
 
-        li.appendChild(compatTitle);
-        li.appendChild(subUl);
         rootUl.appendChild(li);
     }
 
