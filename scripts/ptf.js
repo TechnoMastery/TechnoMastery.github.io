@@ -32,7 +32,7 @@ async function buildVersionList() {
         titleLink.textContent = titleContent;
 
         // source
-        const hasSource = vData.hasSource == null ? true : vData.hasSource;
+        const hasSource = vData.hasSources == null ? true : vData.hasSources;
         const sourceDl = document.createElement(hasSource ? "a" : "i");
         if (hasSource) {
             sourceDl.textContent = "Download source code";
