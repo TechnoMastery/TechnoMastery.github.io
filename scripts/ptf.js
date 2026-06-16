@@ -192,3 +192,5 @@ const potoModCoolMeta = {
     jsonLink: "https://nomutiliser.github.io/nomutiliser/potoModCool/versions.json",
     id: "potoModCool"
 }
+
+buildList(potoModCoolMeta);
