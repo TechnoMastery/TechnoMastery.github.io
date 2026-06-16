@@ -1,5 +1,69 @@
-const sep = document.createTextNode(" | ");
+// ===== PTF =====
+const ptfLink = "https://technomastery.github.io/PotoFluxAppData/ptfVersion/main.json";
 
+async function buildVersionList() {
+    const res = await fetch(ptfLink);
+    const data = await res.json();
+
+    const mainDiv = document.getElementById("ptfVersions");
+    mainDiv.innerHTML = "";
+
+    // fill main
+    mainDiv.appendChild(document.createTextNode("All download for potoflux"));
+    mainDiv.appendChild(document.createElement("br"));
+    mainDiv.appendChild(document.createTextNode("Changelog for each versions is available on the corresponding github release page, you can access it by clicking the first link of the row."));
+
+    // mk list
+    const ul = document.createElement("ul");
+
+    for (const [version, vData] of Object.entries(data.versions)) {
+        const li = document.createElement("li");
+
+        // title
+        const titleLink = document.createElement("a");
+        titleLink.href = data.releasePage + "tag/" + version;
+        titleContent = (vData.type == null ? "Release" : vData.type) + " " + version;
+        if (vData.title != null) {
+            titleContent += ": " + vData.title;
+        }
+        if (version == data.lastestVersion) {
+            titleContent += " - Lastest";
+        }
+        titleLink.textContent = titleContent;
+
+        // source
+        const hasSource = vData.hasSource == null ? true : vData.hasSource;
+        const sourceDl = document.getElementById(hasSource ? "a" : "i");
+        if (hasSource) {
+            sourceDl.textContent = "Download source code";
+            sourceDl.href = data.releasePage + "downloads/" + version + "/PotoFlux-" + version + "-sources.jar";
+        } else {
+            sourceDl.textContent = "There are no source jar for this version.";
+        }
+
+        li.appendChild(titleLink);
+        li.appendChild(document.createTextNode(" | "));
+        li.appendChild(sourceDl);
+
+        ul.appendChild(li);
+    }
+
+    mainDiv.appendChild(ul);
+    
+    // mk pre release disclaimer
+    const preReleaseDisclaimer = document.createElement("i");
+    
+    preReleaseDisclaimer.appendChild(document.createTextNode("Pre-Releases are "));
+    const preReleaseUnstable = document.createElement("strong");
+    preReleaseUnstable.textContent = "unstable";
+    preReleaseDisclaimer.appendChild(preReleaseUnstable);
+    preReleaseDisclaimer.appendChild(document.createTextNode(" and might not even boot."));
+
+    mainDiv.appendChild(preReleaseDisclaimer);
+
+}
+
+// ===== MODS =====
 async function buildList(metaData) {
     const res = await fetch(metaData.jsonLink);
     const data = await res.json();
@@ -160,6 +224,9 @@ async function buildList(metaData) {
 
     div.appendChild(rootUl);
 }
+
+// ===== call ptf inits =====
+buildVersionList();
 
 // ===== build for all mods =====
 
