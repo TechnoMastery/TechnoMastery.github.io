@@ -33,7 +33,7 @@ async function buildVersionList() {
 
         // source
         const hasSource = vData.hasSource == null ? true : vData.hasSource;
-        const sourceDl = document.getElementById(hasSource ? "a" : "i");
+        const sourceDl = document.createElement(hasSource ? "a" : "i");
         if (hasSource) {
             sourceDl.textContent = "Download source code";
             sourceDl.href = data.releasePage + "downloads/" + version + "/PotoFlux-" + version + "-sources.jar";
