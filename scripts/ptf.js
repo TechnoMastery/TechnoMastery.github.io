@@ -21,7 +21,7 @@ async function buildVersionList() {
     for (const [version, vData] of Object.entries(data.versions)) {
         const li = document.createElement("li");
         li.className = "version-card";
-        if (version == data.lastestVersion) {
+        if (version === data.lastestVersion) {
             li.classList.add("latest-version");
         }
 
@@ -33,7 +33,7 @@ async function buildVersionList() {
         if (vData.title != null) {
             titleContent += ": " + vData.title;
         }
-        if (version == data.lastestVersion) {
+        if (version === data.lastestVersion) {
             titleContent += " - Lastest";
         }
         titleLink.textContent = titleContent;
@@ -57,7 +57,7 @@ async function buildVersionList() {
 
     mainDiv.appendChild(ul);
     
-    // mk pre release disclaimer
+    // mk pre-release disclaimer
     const preReleaseDisclaimer = document.createElement("i");
     preReleaseDisclaimer.className = "version-disclaimer";
     
