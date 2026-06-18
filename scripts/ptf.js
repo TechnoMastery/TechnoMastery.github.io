@@ -206,7 +206,7 @@ async function buildList(metaData) {
         if (hasOnlineDoc || hasDocJar) {
             // title
             const docTitle = document.createElement("strong");
-            docTitle.textContent = "Javadoc: ";
+            docTitle.textContent = "Javadoc actions";
 
             // link to doc
             const docLink = hasOnlineDoc ?
@@ -247,26 +247,26 @@ async function buildList(metaData) {
 
         // ======
 
-        li.appendChild(document.createElement("br"));
-        
         // === sub ul - compatible ptf version ===
+        const compatSection = document.createElement("div");
+        compatSection.className = "version-meta compat-meta";
 
         if (versionData.compatList != null) {
 
             const subUl = document.createElement("ul");
             subUl.className = "compat-list";
             
-            const compatTitle = document.createElement("span");
+            const compatTitle = document.createElement("strong");
             compatTitle.className = "compat-title";
-            compatTitle.textContent = "This version of the mod is compatible with those Potoflux versions:";
+            compatTitle.textContent = "Compatible with Potoflux";
 
-            for (const compat of versionData.compatList) {
+            for (const compatVersion of versionData.compatList) {
                 const subLi = document.createElement("li");
-                subLi.textContent = compat;
+                subLi.textContent = compatVersion;
                 subUl.appendChild(subLi);
             }
-            li.appendChild(compatTitle);
-            li.appendChild(subUl);
+            compatSection.appendChild(compatTitle);
+            compatSection.appendChild(subUl);
 
         } else {
             
@@ -278,9 +278,11 @@ async function buildList(metaData) {
             noCompat.appendChild(document.createElement("br"));
             noCompat.appendChild(document.createTextNode("Maybe this mod uses the local compatible version system, or it is only compatible with versions of Potoflux that doesn't feature online version yet."))
 
-            li.appendChild(noCompat);
+            compatSection.appendChild(noCompat);
 
         }
+
+        li.appendChild(compatSection);
 
         rootUl.appendChild(li);
     }
