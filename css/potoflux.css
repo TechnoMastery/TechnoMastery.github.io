@@ -133,6 +133,12 @@
     border-radius: var(--radius);
 }
 
+.beta-disclaimer {
+    color: #7f1d1d;
+    background: rgba(220, 38, 38, 0.1);
+    border-color: rgba(220, 38, 38, 0.24);
+}
+
 .version-card-title,
 .version-meta {
     display: flex;

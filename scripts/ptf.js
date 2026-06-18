@@ -76,6 +76,18 @@ async function buildVersionList() {
 
     mainDiv.appendChild(preReleaseDisclaimer);
 
+    // mk beta disclaimer
+    const betaDiclaimer = document.createElement("i");
+    betaDiclaimer.className = "version-disclaimer beta-disclaimer";
+
+    betaDiclaimer.appendChild(document.createTextNode("Beta versions are "));
+    const betaUnstable = document.createElement("strong");
+    betaUnstable.textContent = "highly unstable";
+    betaDiclaimer.appendChild(betaUnstable);
+    betaDiclaimer.appendChild(document.createTextNode(" and may contain breaking changes or critical bugs."));
+
+    mainDiv.appendChild(betaDiclaimer);
+
 }
 function buildPtfDocButtons(data, version, vData) {
     const doc = document.createElement("span");
