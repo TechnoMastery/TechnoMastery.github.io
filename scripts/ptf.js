@@ -70,6 +70,59 @@ async function buildVersionList() {
     mainDiv.appendChild(preReleaseDisclaimer);
 
 }
+async function buildDocList() {
+    const res = await fetch(ptfLink);
+    const data = await res.json();
+
+    const mainDiv = document.getElementById("ptfDoc");
+    mainDiv.classList.add("version-panel");
+    mainDiv.innerHTML = "";
+
+    mainDiv.appendChild(document.createTextNode("You can see here the link towards the javadocs of all Potoflux's API versions."));
+
+    // mk list
+    const ul = document.createElement("ul");
+    ul.className = "version-list";
+
+    for (const [version, vData] of Object.entries(data.versions)) {
+        const li = document.createElement("li");
+        li.className = "version-card";
+
+        // title
+        const titleLink = document.createTextNode(version);
+
+        // source
+        const hasOnline = vData.hasOnlineDoc == null ? true : vData.hasOnlineDoc;
+        const consult = document.createElement(hasOnline ? "a" : "i");
+        consult.className = hasOnline ? "version-action" : "version-note";
+        if (hasOnline) {
+            consult.textContent = "Consult";
+            consult.href = `https://technomastery.github.io/PotoFluxAppData/javadoc/${version}/index.html`;
+        } else {
+            consult.textContent = "There are no consultable doc for this version.";
+        }
+
+        // dl
+        const hasJar = vData.hasJar == null ? true : vData.hasJar;
+        const dl = document.createElement(hasJar ? "a" : "i");
+        dl.className = hasJar ? "version-action" : "version-note";
+        if (hasJar) {
+            consult.textContent = "Download documentation jar";
+            consult.href = `${data.releasePage}downloads/${version}/PotoFlux-${version}-javadoc.jar"`
+        } else {
+            consult.textContent = "There are no consultable doc for this version.";
+        }
+
+        li.appendChild(titleLink);
+        li.appendChild(consult);
+        li.appendChild(dl);
+
+        ul.appendChild(li);
+    }
+
+    mainDiv.appendChild(ul);
+
+}
 
 // ===== MODS =====
 async function buildList(metaData) {
