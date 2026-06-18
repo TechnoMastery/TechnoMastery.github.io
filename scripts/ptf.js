@@ -6,6 +6,7 @@ async function buildVersionList() {
     const data = await res.json();
 
     const mainDiv = document.getElementById("ptfVersions");
+    mainDiv.classList.add("version-panel");
     mainDiv.innerHTML = "";
 
     // fill main
@@ -15,14 +16,20 @@ async function buildVersionList() {
 
     // mk list
     const ul = document.createElement("ul");
+    ul.className = "version-list";
 
     for (const [version, vData] of Object.entries(data.versions)) {
         const li = document.createElement("li");
+        li.className = "version-card";
+        if (version == data.lastestVersion) {
+            li.classList.add("latest-version");
+        }
 
         // title
         const titleLink = document.createElement("a");
+        titleLink.className = "version-title";
         titleLink.href = data.releasePage + "tag/" + version;
-        titleContent = (vData.type == null ? "Release" : vData.type) + " " + version;
+        let titleContent = (vData.type == null ? "Release" : vData.type) + " " + version;
         if (vData.title != null) {
             titleContent += ": " + vData.title;
         }
@@ -34,6 +41,7 @@ async function buildVersionList() {
         // source
         const hasSource = vData.hasSources == null ? true : vData.hasSources;
         const sourceDl = document.createElement(hasSource ? "a" : "i");
+        sourceDl.className = hasSource ? "version-action" : "version-note";
         if (hasSource) {
             sourceDl.textContent = "Download source code";
             sourceDl.href = data.releasePage + "downloads/" + version + "/PotoFlux-" + version + "-sources.jar";
@@ -42,7 +50,6 @@ async function buildVersionList() {
         }
 
         li.appendChild(titleLink);
-        li.appendChild(document.createTextNode(" | "));
         li.appendChild(sourceDl);
 
         ul.appendChild(li);
@@ -52,6 +59,7 @@ async function buildVersionList() {
     
     // mk pre release disclaimer
     const preReleaseDisclaimer = document.createElement("i");
+    preReleaseDisclaimer.className = "version-disclaimer";
     
     preReleaseDisclaimer.appendChild(document.createTextNode("Pre-Releases are "));
     const preReleaseUnstable = document.createElement("strong");
@@ -69,6 +77,7 @@ async function buildList(metaData) {
     const data = await res.json();
 
     const div = document.getElementById("mod-" + metaData.id + "-content");
+    div.classList.add("mod-version-panel");
     div.innerHTML = "";
 
     // ===== MAIN INFOS =====
@@ -102,16 +111,20 @@ async function buildList(metaData) {
 
     const versions = data.tempVersions;
     const rootUl = document.createElement("ul");
+    rootUl.className = "version-list mod-version-list";
 
     for (const [modVersion, versionData] of Object.entries(versions)) {
         const li = document.createElement("li");
         li.id = "mod-" + metaData.id + "-v" + modVersion;
+        li.className = "version-card mod-version-card";
 
         // === main title ===
         const title = document.createElement("span");
+        title.className = "version-card-title";
 
         // link to release
         const name = document.createElement("a");
+        name.className = "version-title";
         name.textContent = modVersion;
         name.href = data.link + "releases/tag/" + modVersion + "/";
         name.target = "_blank";
@@ -121,6 +134,7 @@ async function buildList(metaData) {
         const sourceDl = hasSources ?
             document.createElement("a") :
             document.createElement("i");
+        sourceDl.className = hasSources ? "version-action" : "version-note";
         sourceDl.textContent = hasSources ?
             "Download source code" :
             "There are no source jar for this version.";
@@ -130,7 +144,6 @@ async function buildList(metaData) {
         }
 
         title.appendChild(name);
-        title.appendChild(document.createTextNode(" | "));
         title.appendChild(sourceDl);
 
         li.appendChild(title);
@@ -141,6 +154,7 @@ async function buildList(metaData) {
 
         // === javadoc ===
         const doc = document.createElement("span");
+        doc.className = "version-meta";
         const hasOnlineDoc = versionData.hasOnlineDoc == null ? true : versionData.hasOnlineDoc;
         const hasDocJar = versionData.hasDocJar == null ? true : versionData.hasDocJar;
 
@@ -153,6 +167,7 @@ async function buildList(metaData) {
             const docLink = hasOnlineDoc ?
                 document.createElement("a") :
                 document.createElement("i");
+            docLink.className = hasOnlineDoc ? "version-action" : "version-note";
             docLink.textContent = hasOnlineDoc ?
                 "Consult" : "There are no consultable Javadoc published for this version."
             if (hasOnlineDoc) {
@@ -164,6 +179,7 @@ async function buildList(metaData) {
             const docDl = hasDocJar ?
                 document.createElement("a") :
                 document.createElement("i");
+            docDl.className = hasDocJar ? "version-action" : "version-note";
             docDl.textContent = hasDocJar ?
                 "Download" : "There are no Javadoc jar for this version."
             if (hasDocJar) {
@@ -178,6 +194,7 @@ async function buildList(metaData) {
 
         } else {
             const fallback = document.createElement("i");
+            fallback.className = "version-note";
             fallback.textContent = "There are no Javadoc available for this version.";
             doc.appendChild(fallback);
         }
@@ -193,8 +210,10 @@ async function buildList(metaData) {
         if (versionData.compatList != null) {
 
             const subUl = document.createElement("ul");
+            subUl.className = "compat-list";
             
             const compatTitle = document.createElement("span");
+            compatTitle.className = "compat-title";
             compatTitle.textContent = "This version of the mod is compatible with those Potoflux versions:";
 
             for (const compat of versionData.compatList) {
