@@ -49,8 +49,15 @@ async function buildVersionList() {
             sourceDl.textContent = "There are no source jar for this version.";
         }
 
-        li.appendChild(titleLink);
-        li.appendChild(sourceDl);
+        const title = document.createElement("span");
+        title.className = "version-card-title";
+        title.appendChild(titleLink);
+        title.appendChild(sourceDl);
+
+        li.appendChild(title);
+
+        const doc = buildPtfDocButtons(data, version, vData);
+        li.appendChild(doc);
 
         ul.appendChild(li);
     }
@@ -70,58 +77,43 @@ async function buildVersionList() {
     mainDiv.appendChild(preReleaseDisclaimer);
 
 }
-async function buildDocList() {
-    const res = await fetch(ptfLink);
-    const data = await res.json();
+function buildPtfDocButtons(data, version, vData) {
+    const doc = document.createElement("span");
+    doc.className = "version-meta";
 
-    const mainDiv = document.getElementById("ptfDoc");
-    mainDiv.classList.add("version-panel");
-    mainDiv.innerHTML = "";
+    const hasOnlineDoc = vData.hasOnlineDoc == null ? true : vData.hasOnlineDoc;
+    const hasDocJar = vData.hasDocJar == null ? true : vData.hasDocJar;
 
-    mainDiv.appendChild(document.createTextNode("You can see here the link towards the javadocs of all Potoflux's API versions."));
+    if (hasOnlineDoc || hasDocJar) {
+        const docTitle = document.createElement("strong");
+        docTitle.textContent = "Javadoc actions";
 
-    // mk list
-    const ul = document.createElement("ul");
-    ul.className = "version-list";
-
-    for (const [version, vData] of Object.entries(data.versions)) {
-        const li = document.createElement("li");
-        li.className = "version-card";
-
-        // title
-        const titleLink = document.createTextNode(version);
-
-        // source
-        const hasOnline = vData.hasOnlineDoc == null ? true : vData.hasOnlineDoc;
-        const consult = document.createElement(hasOnline ? "a" : "i");
-        consult.className = hasOnline ? "version-action" : "version-note";
-        if (hasOnline) {
-            consult.textContent = "Consult";
-            consult.href = `https://technomastery.github.io/PotoFluxAppData/javadoc/${version}/index.html`;
-        } else {
-            consult.textContent = "There are no consultable doc for this version.";
+        const docLink = document.createElement(hasOnlineDoc ? "a" : "i");
+        docLink.className = hasOnlineDoc ? "version-action" : "version-note";
+        docLink.textContent = hasOnlineDoc ? "Consult" : "There are no consultable Javadoc published for this version.";
+        if (hasOnlineDoc) {
+            docLink.href = `https://technomastery.github.io/PotoFluxAppData/javadoc/${version}/index.html`;
+            docLink.target = "_blank";
         }
 
-        // dl
-        const hasJar = vData.hasJar == null ? true : vData.hasJar;
-        const dl = document.createElement(hasJar ? "a" : "i");
-        dl.className = hasJar ? "version-action" : "version-note";
-        if (hasJar) {
-            consult.textContent = "Download documentation jar";
-            consult.href = `${data.releasePage}downloads/${version}/PotoFlux-${version}-javadoc.jar"`
-        } else {
-            consult.textContent = "There are no consultable doc for this version.";
+        const docDl = document.createElement(hasDocJar ? "a" : "i");
+        docDl.className = hasDocJar ? "version-action" : "version-note";
+        docDl.textContent = hasDocJar ? "Download" : "There are no Javadoc jar for this version.";
+        if (hasDocJar) {
+            docDl.href = data.releasePage + "downloads/" + version + "/PotoFlux-" + version + "-javadoc.jar";
         }
 
-        li.appendChild(titleLink);
-        li.appendChild(consult);
-        li.appendChild(dl);
-
-        ul.appendChild(li);
+        doc.appendChild(docTitle);
+        doc.appendChild(docLink);
+        doc.appendChild(docDl);
+    } else {
+        const fallback = document.createElement("i");
+        fallback.className = "version-note";
+        fallback.textContent = "There are no Javadoc available for this version.";
+        doc.appendChild(fallback);
     }
 
-    mainDiv.appendChild(ul);
-
+    return doc;
 }
 
 // ===== MODS =====
@@ -242,7 +234,6 @@ async function buildList(metaData) {
 
             doc.appendChild(docTitle);
             doc.appendChild(docLink);
-            doc.appendChild(document.createTextNode(" | "));
             doc.appendChild(docDl);
 
         } else {

@@ -23,6 +23,12 @@
     border-radius: var(--radius);
 }
 
+.section-anchor {
+    display: block;
+    position: relative;
+    top: -12px;
+}
+
 #ptfVersions > br,
 .mod-version-panel > br {
     display: none;
@@ -33,8 +39,7 @@
     color: var(--text-muted);
 }
 
-.version-list,
-#javadoc + ul {
+.version-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 14px;
@@ -44,8 +49,7 @@
     list-style: none;
 }
 
-.version-card,
-#javadoc + ul > li {
+.version-card {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -92,8 +96,7 @@
     color: var(--primary-dark);
 }
 
-.version-action,
-#javadoc + ul a {
+.version-action {
     align-self: flex-start;
     display: inline-flex;
     align-items: center;
@@ -108,8 +111,7 @@
     line-height: 1.1;
 }
 
-.version-action:hover,
-#javadoc + ul a:hover {
+.version-action:hover {
     color: #ffffff;
     background: var(--primary);
     text-decoration: none;
@@ -140,6 +142,8 @@
 }
 
 .version-meta {
+    flex-direction: column;
+    align-items: flex-start;
     padding-top: 10px;
     border-top: 1px solid var(--line);
 }
@@ -170,24 +174,13 @@
     font-weight: 700;
 }
 
-#javadoc + ul > li {
-    min-height: 92px;
-    color: var(--text-muted);
-}
-
-#javadoc + ul > li::first-line {
-    color: var(--text);
-    font-weight: 800;
-}
-
 @media (max-width: 620px) {
     #ptfVersions,
     .mod-version-panel {
         padding: 16px;
     }
 
-    .version-list,
-    #javadoc + ul {
+    .version-list {
         grid-template-columns: 1fr;
     }
 
