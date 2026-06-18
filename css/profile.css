@@ -1,25 +1,52 @@
-.creator {
-    color: red;
-    font-size: 20px;
-    padding: 10px;
-}
-.friend {
-    color: green;
-    font-size: 20px;
-    padding: 10px;
-}
-.members {
-    color: purple;
-    font-size: 20px;
-    padding: 10px;
-}
-.admin {
-    color: darkblue;
-    font-size: 20px;
-    padding: 10px;
-}
+.creator,
+.friend,
+.members,
+.admin,
 .old {
-    color: darkslategray;
-    font-size: 20px;
-    padding: 10px;
+    display: block;
+    width: min(760px, 100%);
+    margin: 18px auto 10px;
+    padding: 16px 18px;
+    color: var(--text);
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--role-color, var(--primary));
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(28, 45, 61, 0.08);
+}
+
+h2.creator,
+h2.friend,
+h2.members,
+h2.admin,
+h2.old {
+    margin-top: 26px;
+    margin-bottom: 12px;
+    padding: 0 0 10px;
+    color: var(--role-color, var(--primary));
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid color-mix(in srgb, var(--role-color, var(--primary)), transparent 75%);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.creator {
+    --role-color: var(--danger);
+}
+
+.friend {
+    --role-color: var(--success);
+}
+
+.members {
+    --role-color: var(--purple);
+}
+
+.admin {
+    --role-color: var(--primary);
+}
+
+.old {
+    --role-color: #586776;
 }

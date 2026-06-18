@@ -1,109 +1,92 @@
-.buttons {
-    background-color: #04AA6D; /* Green */
-    border: none;
-    color: white;
-    padding: 16px 32px;
+.buttons,
+button {
+    --button-color: var(--primary, #116a7b);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    max-width: 100%;
+    padding: 11px 18px;
+    margin: 4px;
+    color: #ffffff;
+    background: var(--button-color);
+    border: 1px solid color-mix(in srgb, var(--button-color), #000 12%);
+    border-radius: 8px;
+    box-shadow: 0 8px 18px rgba(28, 45, 61, 0.12);
+    cursor: pointer;
+    font: 700 0.95rem/1.1 Arial, Helvetica, sans-serif;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    border-radius: 12px;
-  }
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
 
-  .buttons:disabled {
-    background-color: lightgray;
-    border 2px solid gray;
-  }
+.buttons:hover,
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(28, 45, 61, 0.18);
+}
 
-  .button-red {
-    background-color: white; 
-    color: black; 
-    border: 2px solid red;
-  }
-  .button-red:hover {
-    background-color: red;
-    color: white;
-  }
+.buttons:active,
+button:active {
+    transform: translateY(0);
+}
 
-  .button-green {
-    background-color: white; 
-    color: black; 
-    border: 2px solid green;
-  }
-  .button-green:hover {
-    background-color: green;
-    color: white;
-  }
+.buttons:disabled,
+button:disabled {
+    color: #6b7280;
+    background: #d8dee5;
+    border-color: #c3ccd5;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+}
 
-  .button-darkblue {
-    background-color: white; 
-    color: black; 
-    border: 2px solid darkblue;
-  }
-  .button-darkblue:hover {
-    background-color: darkblue;
-    color: white;
-  }
+a:has(.buttons) {
+    display: inline-flex;
+    text-decoration: none;
+}
 
-  .button-purple {
-    background-color: white; 
-    color: black; 
-    border: 2px solid purple;
-  }
-  .button-purple:hover {
-    background-color: purple;
-    color: white;
-  }
+.button-red {
+    --button-color: #b42318;
+}
 
-  .button-blue {
-    background-color: white; 
-    color: black; 
-    border: 2px solid blue;
-  }
-  .button-blue:hover {
-    background-color: blue;
-    color: white;
-  }
+.button-green {
+    --button-color: #1f7a4d;
+}
 
-  .button-orange {
-    background-color: white; 
-    color: black; 
-    border: 2px solid orange;
-  }
-  .button-orange:hover {
-    background-color: orange;
-    color: white;
-  }
+.button-darkblue,
+.button-blue {
+    --button-color: #116a7b;
+}
 
-  .button-darkred {
-    background-color: white; 
-    color: black; 
-    border: 2px solid darkred;
-  }
-  .button-darkred:hover {
-    background-color: darkred;
-    color: white;
-  }
+.button-purple {
+    --button-color: #7654b8;
+}
 
-  .button-yellow {
-    background-color: white; 
-    color: black; 
-    border: 2px solid yellow;
-  }
-  .button-yellow:hover {
-    background-color: yellow;
-    color: white;
-  }
+.button-orange {
+    --button-color: #d97706;
+}
 
-  .button-darkslategray {
-    background-color: white; 
-    color: black; 
-    border: 2px solid darkslategray;
-  }
-  .button-darkslategray:hover {
-    background-color: darkslategray;
-    color: white;
-  }
+.button-darkred {
+    --button-color: #8f1d1d;
+}
+
+.button-yellow {
+    --button-color: #b7791f;
+}
+
+.button-darkslategray {
+    --button-color: #354958;
+}
+
+@media (max-width: 520px) {
+    .buttons,
+    button {
+        width: 100%;
+        margin-inline: 0;
+    }
+
+    a:has(.buttons) {
+        width: 100%;
+    }
+}
