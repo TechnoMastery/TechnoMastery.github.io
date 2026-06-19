@@ -181,13 +181,21 @@ async function buildList(metaData) {
     div.appendChild(versionsTitle);
 
     const versions = data.tempVersions;
+    const lastestForPtf = data.lastestForPtf;
     const rootUl = document.createElement("ul");
-    rootUl.className = "version-list mod-version-list";
+    rootUl.className = "version-list";
 
     for (const [modVersion, versionData] of Object.entries(versions)) {
         const li = document.createElement("li");
         li.id = "mod-" + metaData.id + "-v" + modVersion;
-        li.className = "version-card mod-version-card";
+        li.className = "version-card";
+
+        // === type ===
+        const type = versionData.type == null ? "Release" : versionData.type;
+        if (versionData.type === "Pre-Release")
+            li.classList.add("pre-release");
+        if (versionData.type === "Beta")
+            li.classList.add("beta");
 
         // === main title ===
         const title = document.createElement("span");
@@ -196,7 +204,7 @@ async function buildList(metaData) {
         // link to release
         const name = document.createElement("a");
         name.className = "version-title";
-        name.textContent = modVersion;
+        name.textContent = type + " " + modVersion;
         name.href = data.link + "releases/tag/" + modVersion + "/";
         name.target = "_blank";
 
@@ -220,8 +228,6 @@ async function buildList(metaData) {
         li.appendChild(title);
 
         // ======
-
-        li.appendChild(document.createElement("br"));
 
         // === javadoc ===
         const doc = document.createElement("span");
@@ -286,13 +292,34 @@ async function buildList(metaData) {
             compatTitle.className = "compat-title";
             compatTitle.textContent = "Compatible with Potoflux";
 
+            let lastestForAny = false;
+
             for (const compatVersion of versionData.compatList) {
                 const subLi = document.createElement("li");
                 subLi.textContent = compatVersion;
+
+                for (const [ptfV, lastest] of Object.entries(lastestForPtf))
+                    if (ptfV === compatVersion && lastest === modVersion) {
+                        subLi.classList.add("lastest-for");
+                        lastestForAny = true;
+                    }
+
                 subUl.appendChild(subLi);
             }
             compatSection.appendChild(compatTitle);
             compatSection.appendChild(subUl);
+
+            if (lastestForAny) {
+                const strongGreen = document.createElement("strong");
+                strongGreen.textContent = "green";
+
+                const lastestInfo = document.createElement("i");
+                lastestInfo.classList.add("lastest-info");
+                lastestInfo.appendChild(document.createTextNode("This version is the lastest for the ones in "));
+                lastestInfo.appendChild(strongGreen);
+
+                compatSection.appendChild(lastestInfo);
+            }
 
         } else {
             

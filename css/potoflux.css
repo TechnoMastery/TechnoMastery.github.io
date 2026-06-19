@@ -86,6 +86,9 @@
     background: rgba(22, 163, 74, 0.16);
     border: 1px solid rgba(22, 163, 74, 0.28);
 }
+.version-card.latest-version.mod::after {
+    content: "Latest for: " attr(ptf-version);
+}
 
 .version-card.pre-release {
     border-left-color: var(--accent);
@@ -211,6 +214,11 @@
     border-radius: 999px;
     font-size: 0.86rem;
     font-weight: 700;
+}
+.compat-list li.lastest-for {
+    color: #14532d;
+    background: rgba(22, 163, 74, 0.16);
+    border: 1px solid rgba(22, 163, 74, 0.28);
 }
 
 @media (max-width: 620px) {
