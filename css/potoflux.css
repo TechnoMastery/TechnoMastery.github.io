@@ -29,11 +29,6 @@
     top: -12px;
 }
 
-#ptfVersions > br,
-.mod-version-panel > br {
-    display: none;
-}
-
 .version-panel,
 .mod-version-panel {
     color: var(--text-muted);

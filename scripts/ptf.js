@@ -10,7 +10,7 @@ async function buildVersionList() {
     mainDiv.innerHTML = "";
 
     // fill main
-    mainDiv.appendChild(document.createTextNode("All download for potoflux"));
+    mainDiv.appendChild(document.createTextNode("All download for potoflux."));
     mainDiv.appendChild(document.createElement("br"));
     mainDiv.appendChild(document.createTextNode("Changelog for each versions is available on the corresponding github release page, you can access it by clicking the first link of the row."));
 
@@ -170,7 +170,7 @@ async function buildList(metaData) {
     // ===== VERSION SYSTEM =====
 
     const versionsTitle = document.createElement("span");
-    versionsTitle.textContent = "Versions of this mod:";
+    versionsTitle.textContent = "Versions of this mod :";
 
     div.appendChild(versionsTitle);
 
