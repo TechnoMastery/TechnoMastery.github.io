@@ -25,11 +25,19 @@ async function buildVersionList() {
             li.classList.add("latest-version");
         }
 
+        const rlType = vData.type == null ? "Release" : vData.type;
+        if (vData.type === "Pre-Release") {
+            li.classList.add("pre-release");
+        }
+        if (vData.type === "Beta") {
+            li.classList.add("beta");
+        }
+
         // title
         const titleLink = document.createElement("a");
         titleLink.className = "version-title";
         titleLink.href = data.releasePage + "tag/" + version;
-        let titleContent = (vData.type == null ? "Release" : vData.type) + " " + version;
+        let titleContent = rlType + " " + version;
         if (vData.title != null) {
             titleContent += ": " + vData.title;
         }
@@ -66,7 +74,7 @@ async function buildVersionList() {
     
     // mk pre-release disclaimer
     const preReleaseDisclaimer = document.createElement("i");
-    preReleaseDisclaimer.className = "version-disclaimer";
+    preReleaseDisclaimer.className = "pre-release-disclaimer";
     
     preReleaseDisclaimer.appendChild(document.createTextNode("Pre-Releases are "));
     const preReleaseUnstable = document.createElement("strong");
@@ -78,7 +86,7 @@ async function buildVersionList() {
 
     // mk beta disclaimer
     const betaDiclaimer = document.createElement("i");
-    betaDiclaimer.className = "version-disclaimer beta-disclaimer";
+    betaDiclaimer.className = "beta-disclaimer";
 
     betaDiclaimer.appendChild(document.createTextNode("Beta versions are "));
     const betaUnstable = document.createElement("strong");
