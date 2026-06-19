@@ -149,19 +149,23 @@
     font-size: 0.92rem;
 }
 
-.pre-release-disclaimer, .beta-disclaimer {
+.lastest-info, .pre-release-disclaimer, .beta-disclaimer {
     display: block;
     margin-top: 12px;
     padding: 12px 14px;
     border-radius: var(--radius);
 }
 
+.lastest-info {
+    color: #14532d;
+    background: rgba(22, 163, 74, 0.10);
+    border: 1px solid rgba(22, 163, 74, 0.22);
+}
 .pre-release-disclaimer {
     color: #6d4a00;
     background: rgba(217, 119, 6, 0.1);
     border: 1px solid rgba(217, 119, 6, 0.22);
 }
-
 .beta-disclaimer {
     color: #7f1d1d;
     background: rgba(220, 38, 38, 0.1);

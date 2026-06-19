@@ -14,6 +14,36 @@ async function buildVersionList() {
     mainDiv.appendChild(document.createElement("br"));
     mainDiv.appendChild(document.createTextNode("Changelog for each versions is available on the corresponding github release page, you can access it by clicking the first link of the row."));
 
+    // mk lastest info
+    const lastestInfo = document.createElement("i");
+    lastestInfo.classList.add("lastest-info");
+    lastestInfo.textContent = "The Lastest version is the most stable one, featuring all confirmed functionalities. This might be what you need if you're looking to download Potoflux for the first time, or updating from a very old version.";
+    mainDiv.appendChild(lastestInfo);
+
+    // mk pre-release disclaimer
+    const preReleaseDisclaimer = document.createElement("i");
+    preReleaseDisclaimer.className = "pre-release-disclaimer";
+    preReleaseDisclaimer.appendChild(document.createTextNode("Pre-Releases are "));
+    const preReleaseUnstable = document.createElement("strong");
+    preReleaseUnstable.textContent = "unstable";
+    preReleaseDisclaimer.appendChild(preReleaseUnstable);
+    preReleaseDisclaimer.appendChild(document.createTextNode(" and might not even boot."));
+
+    mainDiv.appendChild(preReleaseDisclaimer);
+
+    // mk beta disclaimer
+    const betaDisclaimer = document.createElement("i");
+    betaDisclaimer.className = "beta-disclaimer";
+    betaDisclaimer.appendChild(document.createTextNode("Beta versions are "));
+    const betaUnstable = document.createElement("strong");
+    betaUnstable.textContent = "highly unstable";
+    betaDisclaimer.appendChild(betaUnstable);
+    betaDisclaimer.appendChild(document.createTextNode(" and may contain breaking changes or critical bugs."));
+
+    mainDiv.appendChild(betaDisclaimer);
+
+    // ===
+
     // mk list
     const ul = document.createElement("ul");
     ul.className = "version-list";
@@ -71,30 +101,6 @@ async function buildVersionList() {
     }
 
     mainDiv.appendChild(ul);
-    
-    // mk pre-release disclaimer
-    const preReleaseDisclaimer = document.createElement("i");
-    preReleaseDisclaimer.className = "pre-release-disclaimer";
-    
-    preReleaseDisclaimer.appendChild(document.createTextNode("Pre-Releases are "));
-    const preReleaseUnstable = document.createElement("strong");
-    preReleaseUnstable.textContent = "unstable";
-    preReleaseDisclaimer.appendChild(preReleaseUnstable);
-    preReleaseDisclaimer.appendChild(document.createTextNode(" and might not even boot."));
-
-    mainDiv.appendChild(preReleaseDisclaimer);
-
-    // mk beta disclaimer
-    const betaDiclaimer = document.createElement("i");
-    betaDiclaimer.className = "beta-disclaimer";
-
-    betaDiclaimer.appendChild(document.createTextNode("Beta versions are "));
-    const betaUnstable = document.createElement("strong");
-    betaUnstable.textContent = "highly unstable";
-    betaDiclaimer.appendChild(betaUnstable);
-    betaDiclaimer.appendChild(document.createTextNode(" and may contain breaking changes or critical bugs."));
-
-    mainDiv.appendChild(betaDiclaimer);
 
 }
 function buildPtfDocButtons(data, version, vData) {
