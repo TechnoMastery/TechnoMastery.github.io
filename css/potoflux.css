@@ -228,7 +228,9 @@
         padding-right: 0;
     }
 
-    .version-card.latest-version::after {
+    .version-card.latest-version::after,
+    .version-card.pre-release::after,
+    .version-card.beta::after {
         position: static;
         align-self: flex-start;
         order: -1;
