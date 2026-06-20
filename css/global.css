@@ -16,6 +16,10 @@
     --radius: 8px;
 }
 
+.hide {
+    display: none !important;
+}
+
 * {
     box-sizing: border-box;
 }
