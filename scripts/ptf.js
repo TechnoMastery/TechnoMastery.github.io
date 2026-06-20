@@ -77,6 +77,7 @@ async function buildPtfList() {
     for (const [version, vData] of Object.entries(data.versions)) {
         const li = document.createElement("li");
         li.className = "version-card";
+        li.id = `ptf-v${version}-card`;
         const isLastest = version === data.lastestVersion;
         if (isLastest) li.classList.add("lastest-version");
 
