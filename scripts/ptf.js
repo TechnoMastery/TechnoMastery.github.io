@@ -56,12 +56,12 @@ async function buildVersionList() {
         }
 
         const rlType = vData.type == null ? "Release" : vData.type;
-        if (vData.type === "Pre-Release") {
+        if (vData.type === "Pre-Release")
             li.classList.add("pre-release");
-        }
-        if (vData.type === "Beta") {
+        if (vData.type === "Beta")
             li.classList.add("beta");
-        }
+        if (vData.type === "Alpha")
+            li.classList.add("alpha");
 
         // title
         const titleLink = document.createElement("a");
@@ -197,6 +197,8 @@ async function buildList(metaData) {
             li.classList.add("pre-release");
         if (versionData.type === "Beta")
             li.classList.add("beta");
+        if (versionData.type === "Alpha")
+            li.classList.add("alpha");
 
         // === main title ===
         const title = document.createElement("span");
