@@ -1,6 +1,40 @@
 // ===== PTF =====
 const ptfLink = "https://technomastery.github.io/PotoFluxAppData/ptfVersion/main.json";
 
+function getRcDisclaimer() {
+    const preReleaseDisclaimer = document.createElement("i");
+    preReleaseDisclaimer.className = "rc-disclaimer";
+    preReleaseDisclaimer.appendChild(document.createTextNode("Release Candidates (RCs) are releases that need to be tested. If they are bug-free, they "));
+    const preReleaseBold = document.createElement("strong");
+    preReleaseBold.textContent = "can become the official Lastest version.";
+    preReleaseDisclaimer.appendChild(preReleaseBold);
+    return preReleaseDisclaimer;
+}
+function getAlphaDisclaimer() {
+    const alphaDisclaimer = document.createElement("i");
+    alphaDisclaimer.className = "alpha-disclaimer";
+    alphaDisclaimer.appendChild(document.createTextNode("Alphas version are still in development, with "));
+    const alphaBugs = document.createElement("strong");
+    alphaBugs.textContent = "huge bugs";
+    alphaDisclaimer.appendChild(alphaBugs);
+    alphaDisclaimer.appendChild(document.createTextNode(" and "));
+    const alphaFunc = document.createElement("strong");
+    alphaFunc.textContent = "unfinished functionalities";
+    alphaDisclaimer.appendChild(alphaFunc);
+    alphaDisclaimer.appendChild(document.createTextNode(". They are mainly there for the users that wants to test in early access the features."));
+    return alphaDisclaimer;
+}
+function getBetaDisclaimer() {
+    const betaDisclaimer = document.createElement("i");
+    betaDisclaimer.className = "beta-disclaimer";
+    betaDisclaimer.appendChild(document.createTextNode("Beta versions are "));
+    const betaUnstable = document.createElement("strong");
+    betaUnstable.textContent = "highly unstable";
+    betaDisclaimer.appendChild(betaUnstable);
+    betaDisclaimer.appendChild(document.createTextNode(" and may contain breaking changes or critical bugs."));
+    return betaDisclaimer;
+}
+
 async function buildVersionList() {
     const res = await fetch(ptfLink);
     const data = await res.json();
@@ -21,40 +55,11 @@ async function buildVersionList() {
     mainDiv.appendChild(lastestInfo);
 
     // mk pre-release disclaimer
-    const preReleaseDisclaimer = document.createElement("i");
-    preReleaseDisclaimer.className = "pre-release-disclaimer";
-    preReleaseDisclaimer.appendChild(document.createTextNode("Release Candidates (RCs) are releases that need to be tested. If they are bug-free, they "));
-    const preReleaseBold = document.createElement("strong");
-    preReleaseBold.textContent = "can become the official Lastest version.";
-    preReleaseDisclaimer.appendChild(preReleaseBold);
-
-    mainDiv.appendChild(preReleaseDisclaimer);
-
+    mainDiv.appendChild(getRcDisclaimer());
     // mk alpha disclaimer
-    const alphaDisclaimer = document.createElement("i");
-    alphaDisclaimer.className = "alpha-disclaimer";
-    alphaDisclaimer.appendChild(document.createTextNode("Alphas version are still in development, with "));
-    const alphaBugs = document.createElement("strong");
-    alphaBugs.textContent = "huge bugs";
-    alphaDisclaimer.appendChild(alphaBugs);
-    alphaDisclaimer.appendChild(document.createTextNode(" and "));
-    const alphaFunc = document.createElement("strong");
-    alphaFunc.textContent = "unfinished functionalities";
-    alphaDisclaimer.appendChild(alphaFunc);
-    alphaDisclaimer.appendChild(document.createTextNode(". They are mainly there for the users that wants to test in early access the features."));
-
-    mainDiv.appendChild(alphaDisclaimer);
-
+    mainDiv.appendChild(getAlphaDisclaimer());
     // mk beta disclaimer
-    const betaDisclaimer = document.createElement("i");
-    betaDisclaimer.className = "beta-disclaimer";
-    betaDisclaimer.appendChild(document.createTextNode("Beta versions are "));
-    const betaUnstable = document.createElement("strong");
-    betaUnstable.textContent = "highly unstable";
-    betaDisclaimer.appendChild(betaUnstable);
-    betaDisclaimer.appendChild(document.createTextNode(" and may contain breaking changes or critical bugs."));
-
-    mainDiv.appendChild(betaDisclaimer);
+    mainDiv.appendChild(getBetaDisclaimer());
 
     // ===
 
