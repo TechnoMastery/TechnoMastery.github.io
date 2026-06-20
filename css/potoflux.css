@@ -82,7 +82,7 @@
     background: linear-gradient(180deg, rgba(22, 163, 74, 0.08), #ffffff 56%);
 }
 .version-card.lastest-version::after {
-    content: "Latest";
+    content: "Lastest";
     color: #14532d;
     background: rgba(22, 163, 74, 0.16);
     border: 1px solid rgba(22, 163, 74, 0.28);
