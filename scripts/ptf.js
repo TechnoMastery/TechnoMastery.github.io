@@ -2,7 +2,7 @@
 const ptfLink = "https://technomastery.github.io/PotoFluxAppData/ptfVersion/main.json";
 
 const typeFilters = {
-    "filter-name-latest": true,
+    "filter-name-lastest": true,
     "filter-name-rc": true,
     "filter-name-old-rc": false,
     "filter-name-beta-alpha": false
@@ -86,6 +86,11 @@ async function buildPtfList() {
 
     // ===
 
+    // mk filter
+    mainDiv.appendChild(getFilterSection("PTF"));
+
+    // ===
+
     // mk list
     const ul = document.createElement("ul");
     ul.className = "version-list";
@@ -113,7 +118,7 @@ async function buildPtfList() {
         }
 
         // Set datasets for filtering
-        if (isLastest) li.dataset.type = getLiType(isLastest, rlType, vData.isOldRc);
+        li.dataset.type = getLiType(isLastest, rlType, vData.isOldRc);
         li.dataset.sources = (vData.hasSources == null ? true : vData.hasSources).toString();
         li.dataset.onlineDoc = (vData.hasOnlineDoc == null ? true : vData.hasOnlineDoc).toString();
         li.dataset.docJar = (vData.hasDocJar == null ? true : vData.hasDocJar).toString();
@@ -159,7 +164,9 @@ async function buildPtfList() {
     }
 
     mainDiv.appendChild(ul);
-    applyFilters();
+
+    mkFiltersEvents(ptfOnlyFilters, "ptfVersions");
+    applyFilters(ptfOnlyFilters, "ptfVersions");
 }
 function buildPtfDocButtons(data, version, vData) {
     const doc = document.createElement("span");
@@ -392,7 +399,7 @@ async function buildModList(metaData) {
                     if (ptfV === compatVersion && lastest === modVersion) {
                         subLi.classList.add("lastest-for");
                         lastestForAny = true;
-                        lastestFor.list[lastest.list.length] = ptfV;
+                        lastestFor.list[lastestFor.list.length] = ptfV;
                         if (ptfV === lastestPtf) lastestForLastest = true;
                     }
 
@@ -452,7 +459,7 @@ async function buildModList(metaData) {
         }
 
         // Set datasets for filtering
-        getLiType(lastestForLastest, type, versionData.isOldRc);
+        li.dataset.type = getLiType(lastestForLastest, type, versionData.isOldRc);
         li.dataset.sources = hasSources.toString();
         li.dataset.onlineDoc = hasOnlineDoc.toString();
         li.dataset.docJar = hasDocJar.toString();
@@ -473,7 +480,7 @@ async function buildModList(metaData) {
     if (hasAlpha) div.appendChild(getAlphaDisclaimer());
 
     div.appendChild(rootUl);
-    applyFilters();
+    // applyFilters();
 }
 
 function getLiType(isLastest, rlType, isOldRc) {
@@ -491,9 +498,9 @@ function applyFilters(optionals, mainDivID) {
     const typeFiltersValues = {};
     const optionalFiltersValues = {};
 
-    typeFilters.forEach(idContainer => {
-        const checkbox = document.querySelector(`#${mainDivID} .${idContainer.id}`);
-        typeFiltersValues[idContainer.id] = checkbox ? checkbox.checked : idContainer.value;
+    Object.entries(typeFilters).forEach(([id, value]) => {
+        const checkbox = document.querySelector(`#${mainDivID} .${id}`);
+        typeFiltersValues[id] = checkbox ? checkbox.checked : value;
     });
 
     mainFilters.forEach(filter => {
@@ -520,23 +527,23 @@ function applyFilters(optionals, mainDivID) {
 
         // Check type match
         let typeMatch = false;
-        typeFiltersValues.forEach(filterContainer => {
-            if (filterContainer.id === "filter-name-latest" && (type === 'lastest' || type === 'release')) typeMatch = filterContainer.value;
-            if (filterContainer.id === "filter-name-rc" && (type === 'lastest' || type === 'release')) typeMatch = filterContainer.value;
-            if (filterContainer.id === "filter-name-old-rc" && (type === 'lastest' || type === 'release')) typeMatch = filterContainer.value;
-            if (filterContainer.id === "filter-name-beta-alpha" && (type === 'lastest' || type === 'release')) typeMatch = filterContainer.value;
+        Object.entries(typeFiltersValues).forEach(([id, value]) => {
+            if (id === "filter-name-lastest" && (type === 'lastest' || type === 'release')) typeMatch = value;
+            if (id === "filter-name-rc" && type === 'rc') typeMatch = value;
+            if (id === "filter-name-old-rc" && type === 'old-rc') typeMatch = value;
+            if (id === "filter-name-beta-alpha" && (type === 'alpha' || type === 'beta')) typeMatch = value;
         });
 
         // Check feature matches (AND conditions)
         let featuresMatch = true;
-        optionalFiltersValues.forEach(filterContainer => {
+        Object.entries(optionalFiltersValues).forEach(([id, value]) => {
             // -- main --
-            if (filterContainer.id === "filter-name-sources" && filterContainer.value === true && !hasSources) featuresMatch = false;
-            if (filterContainer.id === "filter-name-online-doc" && filterContainer.value === true && !hasOnlineDoc) featuresMatch = false;
-            if (filterContainer.id === "filter-name-doc-jar" && filterContainer.value === true && !hasDocJar) featuresMatch = false;
+            if (id === "filter-name-sources" && value === true && !hasSources) featuresMatch = false;
+            if (id === "filter-name-online-doc" && value === true && !hasOnlineDoc) featuresMatch = false;
+            if (id === "filter-name-doc-jar" && value === true && !hasDocJar) featuresMatch = false;
 
             // -- PTF only --
-            if (filterContainer.id === "filter-name-msi" && filterContainer.value === true && !hasMsi) featuresMatch = false;
+            if (id === "filter-name-msi" && value === true && !hasMsi) featuresMatch = false;
 
             // -- mod only --
             // TODO
@@ -547,11 +554,10 @@ function applyFilters(optionals, mainDivID) {
         else card.classList.add('hide');
     });
 }
-
 function mkFiltersEvents(optionalList, mainDivID) {
 
-    typeFilters.forEach(idContainer => {
-        const checkbox = document.querySelector(`#${mainDivID} .${idContainer.id}`);
+    Object.entries(typeFilters).forEach(([id, value]) => {
+        const checkbox = document.querySelector(`#${mainDivID} .${id}`);
         if (checkbox) checkbox.addEventListener('change', () => applyFilters(optionalList, mainDivID));
     });
     mainFilters.forEach(filter => {
@@ -563,13 +569,13 @@ function mkFiltersEvents(optionalList, mainDivID) {
         if (checkbox) checkbox.addEventListener('change', () => applyFilters(optionalList, mainDivID));
     })
 
-    const resetBtn = document.getElementById(`#${mainDivID} .reset`);
+    const resetBtn = document.querySelector(`#${mainDivID} .reset-filter`);
     if (resetBtn) {
         resetBtn.addEventListener('click', () => {
 
-            typeFilters.forEach(idContainer => {
-                const checkbox = document.querySelector(`#${mainDivID} .${idContainer.id}`);
-                if (checkbox) checkbox.checked = idContainer.value;
+            Object.entries(typeFilters).forEach(([id, value]) => {
+                const checkbox = document.querySelector(`#${mainDivID} .${id}`);
+                if (checkbox) checkbox.checked = value;
             });
 
             mainFilters.forEach(filter => {
@@ -585,6 +591,213 @@ function mkFiltersEvents(optionalList, mainDivID) {
             applyFilters(optionalList, mainDivID);
         });
     }
+}
+
+function getFilterSection(optionalListName) {
+    // ===== MAIN DIV =====
+    const container = document.createElement("div");
+    container.className = "filter-container";
+
+    // ==== HEADER ====
+    const header = document.createElement("div");
+    header.className = "filter-header";
+    // --- HEADER title ---
+    const headerTitle = document.createElement("h3");
+    headerTitle.textContent = "Filter versions";
+    // --- reset btn ---
+    const resetBtn = document.createElement("button");
+    resetBtn.className = "buttons button-blue filter-reset-button reset-filter";
+    resetBtn.textContent = "Reset";
+    // ---
+    header.appendChild(headerTitle);
+    header.appendChild(resetBtn);
+    // ====
+    container.appendChild(header);
+
+    // ==== SECTIONS ====
+    const sections = document.createElement("div");
+    sections.className = "filter-sections";
+
+    // === SECTION type ===
+    const typeSection = document.createElement("div");
+    typeSection.className = "filter-section";
+    // --- title ---
+    const typeSectionTitle = document.createElement("span");
+    typeSectionTitle.className = "filter-section-title";
+    typeSectionTitle.textContent = "Version types";
+
+    // == OPTIONS ==
+    const typeSectionOptions = document.createElement("div");
+    typeSectionOptions.className = "filter-options";
+    // -- Lastest & releases --
+    const typeSectionOptionLastestReleases = document.createElement("label");
+    typeSectionOptionLastestReleases.className = "filter-checkbox-label";
+    // - input -
+    const typeSectionOptionLastestReleasesInput = document.createElement("input");
+    typeSectionOptionLastestReleasesInput.type = "checkbox";
+    typeSectionOptionLastestReleasesInput.className = "filter-name-lastest";
+    typeSectionOptionLastestReleasesInput.checked = typeFilters["filter-name-lastest"];
+    // - custom -
+    const typeSectionOptionLastestReleasesCustom = document.createElement("span");
+    typeSectionOptionLastestReleasesCustom.className = "custom-checkbox";
+    // -
+    typeSectionOptionLastestReleases.appendChild(typeSectionOptionLastestReleasesInput);
+    typeSectionOptionLastestReleases.appendChild(typeSectionOptionLastestReleasesCustom);
+    typeSectionOptionLastestReleases.appendChild(document.createTextNode("Lastest and Releases"));
+    // -- RCs --
+    const typeSectionOptionRCs = document.createElement("label");
+    typeSectionOptionRCs.className = "filter-checkbox-label";
+    // - input -
+    const typeSectionOptionRCsInput = document.createElement("input");
+    typeSectionOptionRCsInput.type = "checkbox";
+    typeSectionOptionRCsInput.className = "filter-name-rc";
+    typeSectionOptionRCsInput.checked = typeFilters["filter-name-rc"];
+    // - custom -
+    const typeSectionOptionRCsCustom = document.createElement("span");
+    typeSectionOptionRCsCustom.className = "custom-checkbox";
+    // -
+    typeSectionOptionRCs.appendChild(typeSectionOptionRCsInput);
+    typeSectionOptionRCs.appendChild(typeSectionOptionRCsCustom);
+    typeSectionOptionRCs.appendChild(document.createTextNode("Release Candidates (RC)"));
+    // -- old RCs --
+    const typeSectionOptionOldRCs = document.createElement("label");
+    typeSectionOptionOldRCs.className = "filter-checkbox-label";
+    // - input -
+    const typeSectionOptionOldRCsInput = document.createElement("input");
+    typeSectionOptionOldRCsInput.type = "checkbox";
+    typeSectionOptionOldRCsInput.className = "filter-name-old-rc";
+    typeSectionOptionOldRCsInput.checked = typeFilters["filter-name-old-rc"];
+    // - custom -
+    const typeSectionOptionOldRCsCustom = document.createElement("span");
+    typeSectionOptionOldRCsCustom.className = "custom-checkbox";
+    // -
+    typeSectionOptionOldRCs.appendChild(typeSectionOptionOldRCsInput);
+    typeSectionOptionOldRCs.appendChild(typeSectionOptionOldRCsCustom);
+    typeSectionOptionOldRCs.appendChild(document.createTextNode("Old RCs"));
+    // -- Alpha Beta --
+    const typeSectionOptionAlphaBeta = document.createElement("label");
+    typeSectionOptionAlphaBeta.className = "filter-checkbox-label";
+    // - input -
+    const typeSectionOptionAlphaBetaInput = document.createElement("input");
+    typeSectionOptionAlphaBetaInput.type = "checkbox";
+    typeSectionOptionAlphaBetaInput.className = "filter-name-beta-alpha";
+    typeSectionOptionAlphaBetaInput.checked = typeFilters["filter-name-beta-alpha"];
+    // - custom -
+    const typeSectionOptionAlphaBetaCustom = document.createElement("span");
+    typeSectionOptionAlphaBetaCustom.className = "custom-checkbox";
+    // -
+    typeSectionOptionAlphaBeta.appendChild(typeSectionOptionAlphaBetaInput);
+    typeSectionOptionAlphaBeta.appendChild(typeSectionOptionAlphaBetaCustom);
+    typeSectionOptionAlphaBeta.appendChild(document.createTextNode("Alpha / Beta"));
+    // ==
+    typeSectionOptions.appendChild(typeSectionOptionLastestReleases);
+    typeSectionOptions.appendChild(typeSectionOptionRCs);
+    typeSectionOptions.appendChild(typeSectionOptionOldRCs);
+    typeSectionOptions.appendChild(typeSectionOptionAlphaBeta);
+
+    // ===
+    typeSection.appendChild(typeSectionTitle);
+    typeSection.appendChild(typeSectionOptions);
+
+    // === SECTION features ===
+    const featuresSection = document.createElement("div");
+    featuresSection.className = "filter-section";
+    // --- title ---
+    const featuresSectionTitle = document.createElement("span");
+    featuresSectionTitle.className = "filter-section-title";
+    featuresSectionTitle.textContent = "Required features";
+
+    // == OPTIONS ==
+    const featuresSectionOptions = document.createElement("div");
+    featuresSectionOptions.className = "filter-options";
+    // -- Source code --
+    const featuresSectionOptionSource = document.createElement("label");
+    featuresSectionOptionSource.className = "filter-checkbox-label";
+    // - input -
+    const featuresSectionOptionSourceInput = document.createElement("input");
+    featuresSectionOptionSourceInput.type = "checkbox";
+    featuresSectionOptionSourceInput.className = "filter-name-sources";
+    // - custom -
+    const featuresSectionOptionSourceCustom = document.createElement("span");
+    featuresSectionOptionSourceCustom.className = "custom-checkbox";
+    // -
+    featuresSectionOptionSource.appendChild(featuresSectionOptionSourceInput);
+    featuresSectionOptionSource.appendChild(featuresSectionOptionSourceCustom);
+    featuresSectionOptionSource.appendChild(document.createTextNode("Has Source Code"));
+    // -- Online doc --
+    const featuresSectionOptionOnlineDoc = document.createElement("label");
+    featuresSectionOptionOnlineDoc.className = "filter-checkbox-label";
+    // - input -
+    const featuresSectionOptionOnlineDocInput = document.createElement("input");
+    featuresSectionOptionOnlineDocInput.type = "checkbox";
+    featuresSectionOptionOnlineDocInput.className = "filter-name-online-doc";
+    // - custom -
+    const featuresSectionOptionOnlineDocCustom = document.createElement("span");
+    featuresSectionOptionOnlineDocCustom.className = "custom-checkbox";
+    // -
+    featuresSectionOptionOnlineDoc.appendChild(featuresSectionOptionOnlineDocInput);
+    featuresSectionOptionOnlineDoc.appendChild(featuresSectionOptionOnlineDocCustom);
+    featuresSectionOptionOnlineDoc.appendChild(document.createTextNode("Has Online Doc"));
+    // -- Doc jar --
+    const featuresSectionOptionDocJar = document.createElement("label");
+    featuresSectionOptionDocJar.className = "filter-checkbox-label";
+    // - input -
+    const featuresSectionOptionDocJarInput = document.createElement("input");
+    featuresSectionOptionDocJarInput.type = "checkbox";
+    featuresSectionOptionDocJarInput.className = "filter-name-doc-jar";
+    // - custom -
+    const featuresSectionOptionDocJarCustom = document.createElement("span");
+    featuresSectionOptionDocJarCustom.className = "custom-checkbox";
+    // -
+    featuresSectionOptionDocJar.appendChild(featuresSectionOptionDocJarInput);
+    featuresSectionOptionDocJar.appendChild(featuresSectionOptionDocJarCustom);
+    featuresSectionOptionDocJar.appendChild(document.createTextNode("Has Doc Jar"));
+    // ==
+    featuresSectionOptions.appendChild(featuresSectionOptionSource);
+    featuresSectionOptions.appendChild(featuresSectionOptionOnlineDoc);
+    featuresSectionOptions.appendChild(featuresSectionOptionDocJar);
+
+    // ===
+    featuresSection.appendChild(featuresSectionTitle);
+    featuresSection.appendChild(featuresSectionOptions);
+
+    // ====
+    sections.appendChild(typeSection);
+    sections.appendChild(featuresSection);
+
+    // ==== MORE FEATURES ====
+    if (optionalListName === "PTF") {
+
+        // -- Doc jar --
+        const featuresSectionOptionMsi = document.createElement("label");
+        featuresSectionOptionMsi.className = "filter-checkbox-label";
+        // - input -
+        const featuresSectionOptionMsiInput = document.createElement("input");
+        featuresSectionOptionMsiInput.type = "checkbox";
+        featuresSectionOptionMsiInput.className = "filter-name-msi";
+        // - custom -
+        const featuresSectionOptionMsiCustom = document.createElement("span");
+        featuresSectionOptionMsiCustom.className = "custom-checkbox";
+        // -
+        featuresSectionOptionMsi.appendChild(featuresSectionOptionMsiInput);
+        featuresSectionOptionMsi.appendChild(featuresSectionOptionMsiCustom);
+        featuresSectionOptionMsi.appendChild(document.createTextNode("Has Msi Installer"));
+
+        // ==
+        featuresSectionOptions.appendChild(featuresSectionOptionMsi);
+
+    }
+    if (optionalListName === "MOD") {
+
+        // TODO
+
+    }
+
+    // =====
+    container.appendChild(sections);
+
+    return container;
+
 }
 
 // ===== call ptf inits =====
