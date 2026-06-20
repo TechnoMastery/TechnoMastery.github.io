@@ -1,6 +1,22 @@
 // ===== PTF =====
 const ptfLink = "https://technomastery.github.io/PotoFluxAppData/ptfVersion/main.json";
 
+const typeFilters = {
+    "filter-name-latest": true,
+    "filter-name-rc": true,
+    "filter-name-old-rc": false,
+    "filter-name-beta-alpha": false
+};
+const mainFilters = [
+    "filter-name-sources", "filter-name-online-doc", "filter-name-doc-jar"
+];
+const ptfOnlyFilters = [
+    "filter-name-msi"
+];
+const modOnlyFilters = [
+    "filter-name-lastest-for", "filter-name-compatible-with"
+];
+
 async function getLastestPtf() {
     const res = await fetch(ptfLink);
     const data = await res.json();
@@ -96,6 +112,13 @@ async function buildPtfList() {
 
         }
 
+        // Set datasets for filtering
+        if (isLastest) li.dataset.type = getLiType(isLastest, rlType, vData.isOldRc);
+        li.dataset.sources = (vData.hasSources == null ? true : vData.hasSources).toString();
+        li.dataset.onlineDoc = (vData.hasOnlineDoc == null ? true : vData.hasOnlineDoc).toString();
+        li.dataset.docJar = (vData.hasDocJar == null ? true : vData.hasDocJar).toString();
+        li.dataset.msi = (vData.hasMsi == null ? true : vData.hasMsi).toString();
+
         // title
         const titleLink = document.createElement("a");
         titleLink.className = "version-title";
@@ -136,7 +159,7 @@ async function buildPtfList() {
     }
 
     mainDiv.appendChild(ul);
-
+    applyFilters();
 }
 function buildPtfDocButtons(data, version, vData) {
     const doc = document.createElement("span");
@@ -346,6 +369,8 @@ async function buildModList(metaData) {
         const compatSection = document.createElement("div");
         compatSection.className = "version-meta compat-meta";
         let lastestForLastest = false;
+        let lastestFor = {list: []};
+        let compatibleWith = {list: []};
 
         if (versionData.compatList != null) {
 
@@ -361,11 +386,13 @@ async function buildModList(metaData) {
             for (const compatVersion of versionData.compatList) {
                 const subLi = document.createElement("li");
                 subLi.textContent = compatVersion;
+                compatibleWith[compatibleWith.list.length] = compatVersion;
 
                 for (const [ptfV, lastest] of Object.entries(lastestForPtf))
                     if (ptfV === compatVersion && lastest === modVersion) {
                         subLi.classList.add("lastest-for");
                         lastestForAny = true;
+                        lastestFor.list[lastest.list.length] = ptfV;
                         if (ptfV === lastestPtf) lastestForLastest = true;
                     }
 
@@ -407,11 +434,11 @@ async function buildModList(metaData) {
             li.classList.add("lastest-version");
             hasLastForLast = true;
         } else {
-            if (versionData.type === "Alpha") {
+            if (type === "Alpha") {
                 li.classList.add("alpha");
                 hasAlpha = true;
             }
-            else if (versionData.type === "Beta") {
+            else if (type === "Beta") {
                 li.classList.add("beta");
                 hasBeta = true;
             }
@@ -423,6 +450,14 @@ async function buildModList(metaData) {
                 }
             }
         }
+
+        // Set datasets for filtering
+        getLiType(lastestForLastest, type, versionData.isOldRc);
+        li.dataset.sources = hasSources.toString();
+        li.dataset.onlineDoc = hasOnlineDoc.toString();
+        li.dataset.docJar = hasDocJar.toString();
+        li.dataset.lastestFor = JSON.stringify(lastestFor);
+        li.dataset.compatibleWith = JSON.stringify(compatibleWith);
 
         rootUl.appendChild(li);
     }
@@ -438,6 +473,118 @@ async function buildModList(metaData) {
     if (hasAlpha) div.appendChild(getAlphaDisclaimer());
 
     div.appendChild(rootUl);
+    applyFilters();
+}
+
+function getLiType(isLastest, rlType, isOldRc) {
+    if (isLastest) return "lastest";
+    else {
+        if (rlType === "Alpha") return "alpha";
+        else if (rlType === "Beta") return "beta";
+        else if (isOldRc != null) return isOldRc ? "old-rc" : "rc";
+        else return "release";
+    }
+}
+
+// ===== Filtering System =====
+function applyFilters(optionals, mainDivID) {
+    const typeFiltersValues = {};
+    const optionalFiltersValues = {};
+
+    typeFilters.forEach(idContainer => {
+        const checkbox = document.querySelector(`#${mainDivID} .${idContainer.id}`);
+        typeFiltersValues[idContainer.id] = checkbox ? checkbox.checked : idContainer.value;
+    });
+
+    mainFilters.forEach(filter => {
+        const checkbox = document.querySelector(`#${mainDivID} .${filter}`);
+        optionalFiltersValues[filter] = checkbox ? checkbox.checked : false;
+    });
+    optionals.forEach(filter => {
+        const checkbox = document.querySelector(`#${mainDivID} .${filter}`);
+        optionalFiltersValues[filter] = checkbox ? checkbox.checked : false;
+    });
+
+    const cards = document.querySelectorAll(`#${mainDivID} .version-card`);
+    cards.forEach(card => {
+        const type = card.dataset.type; // latest, release, rc, old-rc, alpha, beta
+        const hasSources = card.dataset.sources === 'true';
+        const hasOnlineDoc = card.dataset.onlineDoc === 'true';
+        const hasDocJar = card.dataset.docJar === 'true';
+
+        // === PTF only ===
+        const hasMsi = card.dataset.msi === 'true';
+
+        // === MOD only ===
+        // TODO
+
+        // Check type match
+        let typeMatch = false;
+        typeFiltersValues.forEach(filterContainer => {
+            if (filterContainer.id === "filter-name-latest" && (type === 'lastest' || type === 'release')) typeMatch = filterContainer.value;
+            if (filterContainer.id === "filter-name-rc" && (type === 'lastest' || type === 'release')) typeMatch = filterContainer.value;
+            if (filterContainer.id === "filter-name-old-rc" && (type === 'lastest' || type === 'release')) typeMatch = filterContainer.value;
+            if (filterContainer.id === "filter-name-beta-alpha" && (type === 'lastest' || type === 'release')) typeMatch = filterContainer.value;
+        });
+
+        // Check feature matches (AND conditions)
+        let featuresMatch = true;
+        optionalFiltersValues.forEach(filterContainer => {
+            // -- main --
+            if (filterContainer.id === "filter-name-sources" && filterContainer.value === true && !hasSources) featuresMatch = false;
+            if (filterContainer.id === "filter-name-online-doc" && filterContainer.value === true && !hasOnlineDoc) featuresMatch = false;
+            if (filterContainer.id === "filter-name-doc-jar" && filterContainer.value === true && !hasDocJar) featuresMatch = false;
+
+            // -- PTF only --
+            if (filterContainer.id === "filter-name-msi" && filterContainer.value === true && !hasMsi) featuresMatch = false;
+
+            // -- mod only --
+            // TODO
+
+        })
+
+        if (typeMatch && featuresMatch) card.classList.remove('hide');
+        else card.classList.add('hide');
+    });
+}
+
+function mkFiltersEvents(optionalList, mainDivID) {
+
+    typeFilters.forEach(idContainer => {
+        const checkbox = document.querySelector(`#${mainDivID} .${idContainer.id}`);
+        if (checkbox) checkbox.addEventListener('change', () => applyFilters(optionalList, mainDivID));
+    });
+    mainFilters.forEach(filter => {
+        const checkbox = document.querySelector(`#${mainDivID} .${filter}`);
+        if (checkbox) checkbox.addEventListener('change', () => applyFilters(optionalList, mainDivID));
+    })
+    optionalList.forEach(filter => {
+        const checkbox = document.querySelector(`#${mainDivID} .${filter}`);
+        if (checkbox) checkbox.addEventListener('change', () => applyFilters(optionalList, mainDivID));
+    })
+
+    const resetBtn = document.getElementById(`#${mainDivID} .reset`);
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+
+            typeFilters.forEach(idContainer => {
+                const checkbox = document.querySelector(`#${mainDivID} .${idContainer.id}`);
+                if (checkbox) checkbox.checked = idContainer.value;
+            });
+
+            mainFilters.forEach(filter => {
+                const checkbox = document.querySelector(`#${mainDivID} .${filter}`);
+                if (checkbox) checkbox.checked = false;
+            })
+
+            optionalList.forEach(filter => {
+                const checkbox = document.querySelector(`#${mainDivID} .${filter}`);
+                if (checkbox) checkbox.checked = false;
+            })
+
+            applyFilters(optionalList, mainDivID);
+        });
+    }
 }
 
 // ===== call ptf inits =====

@@ -264,3 +264,153 @@
         order: -1;
     }
 }
+
+/* Filter Panel Styles */
+.filter-container {
+    margin: 20px 0;
+    padding: 22px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(246, 248, 251, 0.95));
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(28, 45, 61, 0.05);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 10px;
+}
+
+.filter-header h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    color: var(--primary-dark);
+    font-weight: 800;
+}
+
+.filter-reset-btn {
+    font-size: 0.85rem !important;
+    padding: 6px 14px !important;
+    min-height: auto !important;
+}
+
+.filter-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.filter-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-section-title {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Custom Styled Checkbox / Toggle Pills */
+.filter-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(28, 45, 61, 0.02);
+}
+
+.filter-checkbox-label:hover {
+    border-color: var(--primary);
+    background: rgba(17, 106, 123, 0.03);
+    color: var(--text);
+    transform: translateY(-1px);
+}
+
+.filter-checkbox-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Custom checkbox state on check using :has */
+.filter-checkbox-label:has(input[type="checkbox"]:checked) {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(17, 106, 123, 0.25);
+}
+
+.filter-checkbox-label:has(input[type="checkbox"]:checked):hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+/* Custom checkbox indicator inside pill */
+.custom-checkbox {
+    position: relative;
+    height: 14px;
+    width: 14px;
+    background-color: #ffffff;
+    border: 1px solid #cbd8e1;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.filter-checkbox-label:has(input[type="checkbox"]:checked) .custom-checkbox {
+    background-color: #ffffff;
+    border-color: #ffffff;
+}
+
+.custom-checkbox::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 4px;
+    top: 1px;
+    width: 3px;
+    height: 7px;
+    border: solid var(--primary);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.filter-checkbox-label:has(input[type="checkbox"]:checked) .custom-checkbox::after {
+    display: block;
+}
+
+@media (max-width: 620px) {
+    .filter-container {
+        padding: 16px;
+    }
+    
+    .filter-sections {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
