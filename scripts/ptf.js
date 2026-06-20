@@ -56,10 +56,10 @@ async function buildVersionList() {
 
     // mk pre-release disclaimer
     mainDiv.appendChild(getRcDisclaimer());
-    // mk alpha disclaimer
-    mainDiv.appendChild(getAlphaDisclaimer());
     // mk beta disclaimer
     mainDiv.appendChild(getBetaDisclaimer());
+    // mk alpha disclaimer
+    mainDiv.appendChild(getAlphaDisclaimer());
 
     // ===
 
@@ -373,8 +373,8 @@ async function buildList(metaData) {
     }
 
     if (hasRC) div.appendChild(getRcDisclaimer());
-    if (hasAlpha) div.appendChild(getAlphaDisclaimer());
     if (hasBeta) div.appendChild(getBetaDisclaimer());
+    if (hasAlpha) div.appendChild(getAlphaDisclaimer());
 
     div.appendChild(rootUl);
 }
