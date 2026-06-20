@@ -42,7 +42,7 @@ function getBetaDisclaimer() {
     return betaDisclaimer;
 }
 
-async function buildVersionList() {
+async function buildPtfList() {
     const res = await fetch(ptfLink);
     const data = await res.json();
 
@@ -440,7 +440,7 @@ async function buildList(metaData) {
 }
 
 // ===== call ptf inits =====
-buildVersionList();
+buildPtfList();
 
 // ===== build for all mods =====
 
