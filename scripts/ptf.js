@@ -175,13 +175,14 @@ async function buildList(metaData) {
 
     // ===== VERSION SYSTEM =====
 
+    const versions = data.tempVersions;
+    const lastestForPtf = data.lastestForPtf;
+
     const versionsTitle = document.createElement("span");
-    versionsTitle.textContent = "Versions of this mod :";
+    versionsTitle.textContent = (!versions || Object.keys(versions).length === 0) ? "No versions published." : "Versions of this mod :";
 
     div.appendChild(versionsTitle);
 
-    const versions = data.tempVersions;
-    const lastestForPtf = data.lastestForPtf;
     const rootUl = document.createElement("ul");
     rootUl.className = "version-list";
 
