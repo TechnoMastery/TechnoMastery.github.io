@@ -235,7 +235,7 @@ async function buildList(metaData) {
 
     // ===== VERSION SYSTEM =====
 
-    const versions = data.tempVersions;
+    const versions = data.versions;
     const lastestForPtf = data.lastestForPtf;
     const lastestPtf = await getLastestPtf();
 
