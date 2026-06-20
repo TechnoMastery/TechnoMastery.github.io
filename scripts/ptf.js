@@ -479,8 +479,12 @@ async function buildModList(metaData) {
     if (hasBeta) div.appendChild(getBetaDisclaimer());
     if (hasAlpha) div.appendChild(getAlphaDisclaimer());
 
+    div.appendChild(getFilterSection("MODS"));
+
     div.appendChild(rootUl);
-    // applyFilters();
+
+    mkFiltersEvents(modOnlyFilters, `mod-${metaData.id}-content`);
+    applyFilters(modOnlyFilters, `mod-${metaData.id}-content`);
 }
 
 function getLiType(isLastest, rlType, isOldRc) {
