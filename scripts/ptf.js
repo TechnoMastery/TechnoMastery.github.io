@@ -116,6 +116,9 @@ async function buildVersionList() {
         const doc = buildPtfDocButtons(data, version, vData);
         li.appendChild(doc);
 
+        const dl = getDlButtons(data, version, vData);
+        li.appendChild(dl);
+
         ul.appendChild(li);
     }
 
@@ -159,6 +162,32 @@ function buildPtfDocButtons(data, version, vData) {
     }
 
     return doc;
+}
+function getDlButtons(data, version, vData) {
+    const dl = document.createElement("span");
+    dl.className = "version-meta";
+
+    const hasMsi = vData.hasMsi == null ? true : vData.hasMsi;
+
+    if (hasMsi) {
+        const title = document.createElement("strong");
+        title.textContent = "Available installers :";
+
+        const msiLink = document.createElement(hasMsi ? "a" : "i");
+        msiLink.className = hasMsi ? "version-action" : "version-note";
+        msiLink.textContent = hasMsi ? "Windows - msi" : "There are no .msi installers for this version.";
+        if (hasMsi) msiLink.href = `${data.releasePage}downloads/${version}/PotoFlux-${version}.msi`;
+
+        dl.appendChild(title);
+        dl.appendChild(msiLink);
+    } else {
+        const fallback = document.createElement("i");
+        fallback.className = "version-note";
+        fallback.textContent = "There are no installer for this version.";
+        dl.appendChild(fallback);
+    }
+
+    return dl;
 }
 
 // ===== MODS =====
