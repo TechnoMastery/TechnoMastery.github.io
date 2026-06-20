@@ -78,7 +78,7 @@ async function buildVersionList() {
         const li = document.createElement("li");
         li.className = "version-card";
         const isLastest = version === data.lastestVersion;
-        if (isLastest) li.classList.add("latest-version");
+        if (isLastest) li.classList.add("lastest-version");
 
         const rlType = vData.type == null ? "Release" : vData.type;
         if (!isLastest) {
