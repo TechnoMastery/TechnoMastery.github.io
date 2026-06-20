@@ -65,7 +65,8 @@
 }
 
 .version-card.latest-version::after,
-.version-card.pre-release::after,
+.version-card.rc::after,
+.version-card.alpha::after,
 .version-card.beta::after {
     position: absolute;
     top: 12px;
@@ -90,11 +91,11 @@
     content: "Latest for: " attr(ptf-version);
 }
 
-.version-card.pre-release {
+.version-card.rc {
     border-left-color: var(--accent);
     background: linear-gradient(180deg, rgba(217, 119, 6, 0.08), #ffffff 56%);
 }
-.version-card.pre-release::after {
+.version-card.rc::after {
     content: "RC";
     color: #7a4300;
     background: rgba(217, 119, 6, 0.16);

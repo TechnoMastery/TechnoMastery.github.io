@@ -75,8 +75,8 @@ async function buildVersionList() {
         }
 
         const rlType = vData.type == null ? "Release" : vData.type;
-        if (vData.type === "Pre-Release")
-            li.classList.add("pre-release");
+        if (vData.type === "Release candidate")
+            li.classList.add("rc");
         if (vData.type === "Beta")
             li.classList.add("beta");
         if (vData.type === "Alpha")
@@ -205,6 +205,10 @@ async function buildList(metaData) {
     const rootUl = document.createElement("ul");
     rootUl.className = "version-list";
 
+    let hasRC = false;
+    let hasBeta = false;
+    let hasAlpha = false;
+
     for (const [modVersion, versionData] of Object.entries(versions)) {
         const li = document.createElement("li");
         li.id = "mod-" + metaData.id + "-v" + modVersion;
@@ -212,12 +216,18 @@ async function buildList(metaData) {
 
         // === type ===
         const type = versionData.type == null ? "Release" : versionData.type;
-        if (versionData.type === "Pre-Release")
-            li.classList.add("pre-release");
-        if (versionData.type === "Beta")
+        if (versionData.type === "Release candidate") {
+            li.classList.add("rc");
+            hasRC = true;
+        }
+        if (versionData.type === "Beta") {
             li.classList.add("beta");
-        if (versionData.type === "Alpha")
+            hasBeta = true;
+        }
+        if (versionData.type === "Alpha") {
             li.classList.add("alpha");
+            hasAlpha = true;
+        }
 
         // === main title ===
         const title = document.createElement("span");
@@ -361,6 +371,10 @@ async function buildList(metaData) {
 
         rootUl.appendChild(li);
     }
+
+    if (hasRC) div.appendChild(getRcDisclaimer());
+    if (hasAlpha) div.appendChild(getAlphaDisclaimer());
+    if (hasBeta) div.appendChild(getBetaDisclaimer());
 
     div.appendChild(rootUl);
 }
