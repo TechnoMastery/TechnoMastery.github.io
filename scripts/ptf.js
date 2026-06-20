@@ -23,13 +23,27 @@ async function buildVersionList() {
     // mk pre-release disclaimer
     const preReleaseDisclaimer = document.createElement("i");
     preReleaseDisclaimer.className = "pre-release-disclaimer";
-    preReleaseDisclaimer.appendChild(document.createTextNode("Pre-Releases are "));
-    const preReleaseUnstable = document.createElement("strong");
-    preReleaseUnstable.textContent = "unstable";
-    preReleaseDisclaimer.appendChild(preReleaseUnstable);
-    preReleaseDisclaimer.appendChild(document.createTextNode(" and might not even boot."));
+    preReleaseDisclaimer.appendChild(document.createTextNode("Release Candidates (RCs) are releases that need to be tested. If they are bug-free, they "));
+    const preReleaseBold = document.createElement("strong");
+    preReleaseBold.textContent = "can become the official Lastest version.";
+    preReleaseDisclaimer.appendChild(preReleaseBold);
 
     mainDiv.appendChild(preReleaseDisclaimer);
+
+    // mk alpha disclaimer
+    const alphaDisclaimer = document.createElement("i");
+    alphaDisclaimer.className = "alpha-disclaimer";
+    alphaDisclaimer.appendChild(document.createTextNode("Alphas version are still in development, with "));
+    const alphaBugs = document.createElement("strong");
+    alphaBugs.textContent = "huge bugs";
+    alphaDisclaimer.appendChild(alphaBugs);
+    alphaDisclaimer.appendChild(document.createTextNode(" and "));
+    const alphaFunc = document.createElement("strong");
+    alphaFunc.textContent = "unfinished functionalities";
+    alphaDisclaimer.appendChild(alphaFunc);
+    alphaDisclaimer.appendChild(document.createTextNode(". They are mainly there for the users that wants to test in early access the features."));
+
+    mainDiv.appendChild(alphaDisclaimer);
 
     // mk beta disclaimer
     const betaDisclaimer = document.createElement("i");

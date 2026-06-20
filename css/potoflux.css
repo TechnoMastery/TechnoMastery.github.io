@@ -95,7 +95,7 @@
     background: linear-gradient(180deg, rgba(217, 119, 6, 0.08), #ffffff 56%);
 }
 .version-card.pre-release::after {
-    content: "Pre-Release";
+    content: "RC";
     color: #7a4300;
     background: rgba(217, 119, 6, 0.16);
     border: 1px solid rgba(217, 119, 6, 0.28);
@@ -163,7 +163,7 @@
     font-size: 0.92rem;
 }
 
-.lastest-info, .pre-release-disclaimer, .beta-disclaimer {
+.lastest-info, .pre-release-disclaimer, .alpha-disclaimer, .beta-disclaimer {
     display: block;
     margin-top: 12px;
     padding: 12px 14px;
@@ -179,6 +179,11 @@
     color: #6d4a00;
     background: rgba(217, 119, 6, 0.1);
     border: 1px solid rgba(217, 119, 6, 0.22);
+}
+.alpha-disclaimer {
+    color: #3b0764;
+    background: rgba(109, 40, 217, 0.1);
+    border: 1px solid rgba(109, 40, 217, 0.23);
 }
 .beta-disclaimer {
     color: #7f1d1d;
