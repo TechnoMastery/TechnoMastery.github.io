@@ -203,7 +203,7 @@ function getDlButtons(data, version, vData) {
 }
 
 // ===== MODS =====
-async function buildList(metaData) {
+async function buildModList(metaData) {
     const res = await fetch(metaData.jsonLink);
     const data = await res.json();
 
@@ -449,39 +449,39 @@ const cardLearningMeta = {
     jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/cardLearning.json",
     id: "cardLearning"
 }
-buildList(cardLearningMeta);
+buildModList(cardLearningMeta);
 
 // todomod
 const todomodMeta = {
     jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/todomod.json",
     id: "todoMod"
 }
-buildList(todomodMeta);
+buildModList(todomodMeta);
 
 // encrypmod
 const encrypModMeta = {
     jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/encrypMod.json",
     id: "encrypMod"
 }
-buildList(encrypModMeta);
+buildModList(encrypModMeta);
 
 // bad life coach
 const badlifecoachMeta = {
     jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/badLifeCoach.json",
     id: "badlifecoach"
 }
-buildList(badlifecoachMeta);
+buildModList(badlifecoachMeta);
 
 // potoModCool
 const potoModCoolMeta = {
     jsonLink: "https://nomutiliser.github.io/nomutiliser/potoModCool/versions.json",
     id: "potoModCool"
 }
-// buildList(potoModCoolMeta);
+// buildModList(potoModCoolMeta);
 
 // impossible tic-tac-toe
 const impossibleTicTacToeMeta = {
     jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/impossibleTicTacToe.json",
     id: "impossibleTicTacToe"
 }
-buildList(impossibleTicTacToeMeta);
+buildModList(impossibleTicTacToeMeta);
