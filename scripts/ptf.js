@@ -70,17 +70,24 @@ async function buildVersionList() {
     for (const [version, vData] of Object.entries(data.versions)) {
         const li = document.createElement("li");
         li.className = "version-card";
-        if (version === data.lastestVersion) {
+        const isLastest = version === data.lastestVersion;
+        if (isLastest)
             li.classList.add("latest-version");
-        }
 
-        const rlType = vData.type == null ? "Release" : vData.type;
-        if (vData.type === "Release candidate")
-            li.classList.add("rc");
-        if (vData.type === "Beta")
-            li.classList.add("beta");
-        if (vData.type === "Alpha")
-            li.classList.add("alpha");
+        if (!isLastest) {
+            const rlType = vData.type == null ? "Release" : vData.type;
+
+            if (rlType === "Beta")
+                li.classList.add("beta");
+            else if (rlType === "Alpha")
+                li.classList.add("alpha");
+
+            else {
+                const rc = vData.isOldRc;
+                if (rc != null) li.classList.add(rc::Boolean ? "old-rc" : "rc");
+            }
+
+        }
 
         // title
         const titleLink = document.createElement("a");

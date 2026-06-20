@@ -65,7 +65,7 @@
 }
 
 .version-card.latest-version::after,
-.version-card.rc::after,
+.version-card.rc::after, .version-card.old-rc::after,
 .version-card.alpha::after,
 .version-card.beta::after {
     position: absolute;
@@ -91,15 +91,18 @@
     content: "Latest for: " attr(ptf-version);
 }
 
-.version-card.rc {
+.version-card.rc, .version-card.old-rc {
     border-left-color: var(--accent);
     background: linear-gradient(180deg, rgba(217, 119, 6, 0.08), #ffffff 56%);
 }
-.version-card.rc::after {
+.version-card.rc::after, .version-card.old-rc::after {
     content: "RC";
     color: #7a4300;
     background: rgba(217, 119, 6, 0.16);
     border: 1px solid rgba(217, 119, 6, 0.28);
+}
+.version-card.old-rc::after {
+    text-decoration: line-through;
 }
 
 .version-card.alpha {
@@ -253,7 +256,8 @@
     }
 
     .version-card.latest-version::after,
-    .version-card.pre-release::after,
+    .version-card.rc::after, .version-card.old-rc::after,
+    .version-card.alpha::after,
     .version-card.beta::after {
         position: static;
         align-self: flex-start;
