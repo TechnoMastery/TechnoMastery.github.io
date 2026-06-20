@@ -74,8 +74,8 @@ async function buildVersionList() {
         if (isLastest)
             li.classList.add("latest-version");
 
+        const rlType = vData.type == null ? "Release" : vData.type;
         if (!isLastest) {
-            const rlType = vData.type == null ? "Release" : vData.type;
 
             if (rlType === "Beta")
                 li.classList.add("beta");
