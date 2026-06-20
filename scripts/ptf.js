@@ -84,7 +84,7 @@ async function buildVersionList() {
 
             else {
                 const rc = vData.isOldRc;
-                if (rc != null) li.classList.add(rc::Boolean ? "old-rc" : "rc");
+                if (rc != null) li.classList.add(rc ? "old-rc" : "rc");
             }
 
         }
