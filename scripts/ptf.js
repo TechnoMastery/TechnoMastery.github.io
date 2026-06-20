@@ -28,10 +28,10 @@ function getBetaDisclaimer() {
     const betaDisclaimer = document.createElement("i");
     betaDisclaimer.className = "beta-disclaimer";
     betaDisclaimer.appendChild(document.createTextNode("Beta versions are "));
-    const betaUnstable = document.createElement("strong");
-    betaUnstable.textContent = "highly unstable";
-    betaDisclaimer.appendChild(betaUnstable);
-    betaDisclaimer.appendChild(document.createTextNode(" and may contain breaking changes or critical bugs."));
+    const betaUnfinished = document.createElement("strong");
+    betaUnfinished.textContent = "unfinished";
+    betaDisclaimer.appendChild(betaUnfinished);
+    betaDisclaimer.appendChild(document.createTextNode(" and are published for bug-hunting purposes. The main functionalities are already done however."));
     return betaDisclaimer;
 }
 
