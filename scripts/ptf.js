@@ -1,6 +1,13 @@
 // ===== PTF =====
 const ptfLink = "https://technomastery.github.io/PotoFluxAppData/ptfVersion/main.json";
 
+async function getLastestPtf() {
+    const res = await fetch(ptfLink);
+    const data = await res.json();
+
+    return data.lastestVersion;
+}
+
 function getRcDisclaimer() {
     const preReleaseDisclaimer = document.createElement("i");
     preReleaseDisclaimer.className = "rc-disclaimer";
@@ -71,16 +78,15 @@ async function buildVersionList() {
         const li = document.createElement("li");
         li.className = "version-card";
         const isLastest = version === data.lastestVersion;
-        if (isLastest)
-            li.classList.add("latest-version");
+        if (isLastest) li.classList.add("latest-version");
 
         const rlType = vData.type == null ? "Release" : vData.type;
         if (!isLastest) {
 
-            if (rlType === "Beta")
-                li.classList.add("beta");
-            else if (rlType === "Alpha")
+            if (rlType === "Alpha")
                 li.classList.add("alpha");
+            else if (rlType === "Beta")
+                li.classList.add("beta");
 
             else {
                 const rc = vData.isOldRc;
@@ -97,9 +103,8 @@ async function buildVersionList() {
         if (vData.title != null) {
             titleContent += ": " + vData.title;
         }
-        if (version === data.lastestVersion) {
-            titleContent += " - Lastest";
-        }
+        if (isLastest) titleContent += " - Lastest";
+
         titleLink.textContent = titleContent;
 
         // source
@@ -232,6 +237,7 @@ async function buildList(metaData) {
 
     const versions = data.tempVersions;
     const lastestForPtf = data.lastestForPtf;
+    const lastestPtf = await getLastestPtf();
 
     const versionsTitle = document.createElement("span");
     versionsTitle.textContent = (!versions || Object.keys(versions).length === 0) ? "No versions published." : "Versions of this mod :";
@@ -244,26 +250,14 @@ async function buildList(metaData) {
     let hasRC = false;
     let hasBeta = false;
     let hasAlpha = false;
+    let hasLastForLast = false;
 
     for (const [modVersion, versionData] of Object.entries(versions)) {
         const li = document.createElement("li");
         li.id = "mod-" + metaData.id + "-v" + modVersion;
         li.className = "version-card";
 
-        // === type ===
         const type = versionData.type == null ? "Release" : versionData.type;
-        if (versionData.type === "Release candidate") {
-            li.classList.add("rc");
-            hasRC = true;
-        }
-        if (versionData.type === "Beta") {
-            li.classList.add("beta");
-            hasBeta = true;
-        }
-        if (versionData.type === "Alpha") {
-            li.classList.add("alpha");
-            hasAlpha = true;
-        }
 
         // === main title ===
         const title = document.createElement("span");
@@ -287,7 +281,7 @@ async function buildList(metaData) {
             "There are no source jar for this version.";
         if (hasSources) {
             sourceDl.href = data.link + "releases/download/" + modVersion +
-            "/" + data.jarName + modVersion + "-sources.jar";
+                "/" + data.jarName + modVersion + "-sources.jar";
         }
 
         title.appendChild(name);
@@ -329,7 +323,7 @@ async function buildList(metaData) {
                 "Download" : "There are no Javadoc jar for this version."
             if (hasDocJar) {
                 docDl.href = data.link + "releases/download/" + modVersion +
-                "/" + data.jarName + modVersion + "-javadoc.jar";
+                    "/" + data.jarName + modVersion + "-javadoc.jar";
             }
 
             doc.appendChild(docTitle);
@@ -350,12 +344,13 @@ async function buildList(metaData) {
         // === sub ul - compatible ptf version ===
         const compatSection = document.createElement("div");
         compatSection.className = "version-meta compat-meta";
+        let lastestForLastest = false;
 
         if (versionData.compatList != null) {
 
             const subUl = document.createElement("ul");
             subUl.className = "compat-list";
-            
+
             const compatTitle = document.createElement("strong");
             compatTitle.className = "compat-title";
             compatTitle.textContent = "Compatible with Potoflux";
@@ -370,6 +365,7 @@ async function buildList(metaData) {
                     if (ptfV === compatVersion && lastest === modVersion) {
                         subLi.classList.add("lastest-for");
                         lastestForAny = true;
+                        if (ptfV === lastestPtf) lastestForLastest = true;
                     }
 
                 subUl.appendChild(subLi);
@@ -390,7 +386,7 @@ async function buildList(metaData) {
             }
 
         } else {
-            
+
             const noCompat = document.createElement("i")
             const noCompatTitle = document.createElement("strong");
             noCompatTitle.textContent = "There are no compatible version specified.";
@@ -405,9 +401,37 @@ async function buildList(metaData) {
 
         li.appendChild(compatSection);
 
+        // === type - class def ===
+        if (lastestForLastest) {
+            li.classList.add("lastest-version");
+            hasLastForLast = true;
+        } else {
+            if (versionData.type === "Alpha") {
+                li.classList.add("alpha");
+                hasAlpha = true;
+            }
+            else if (versionData.type === "Beta") {
+                li.classList.add("beta");
+                hasBeta = true;
+            }
+            else {
+                const rc = versionData.isOldRc;
+                if (rc != null) {
+                    li.classList.add(rc ? "old-rc" : "rc");
+                    hasRC = true;
+                }
+            }
+        }
+
         rootUl.appendChild(li);
     }
 
+    if (hasLastForLast) {
+        const last = document.createElement("i");
+        last.classList.add("lastest-info");
+        last.textContent = "The version labeled 'Lastest' is the lastest version for the lastest Potoflux version.";
+        div.appendChild(last);
+    }
     if (hasRC) div.appendChild(getRcDisclaimer());
     if (hasBeta) div.appendChild(getBetaDisclaimer());
     if (hasAlpha) div.appendChild(getAlphaDisclaimer());
