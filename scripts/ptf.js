@@ -44,7 +44,7 @@ async function buildVersionList() {
         sourceDl.className = hasSource ? "version-action" : "version-note";
         if (hasSource) {
             sourceDl.textContent = "Download source code";
-            sourceDl.href = data.releasePage + "downloads/" + version + "/PotoFlux-" + version + "-sources.jar";
+            sourceDl.href = data.releasePage + "download/" + version + "/PotoFlux-" + version + "-sources.jar";
         } else {
             sourceDl.textContent = "There are no source jar for this version.";
         }
@@ -112,7 +112,7 @@ function buildPtfDocButtons(data, version, vData) {
         docDl.className = hasDocJar ? "version-action" : "version-note";
         docDl.textContent = hasDocJar ? "Download" : "There are no Javadoc jar for this version.";
         if (hasDocJar) {
-            docDl.href = data.releasePage + "downloads/" + version + "/PotoFlux-" + version + "-javadoc.jar";
+            docDl.href = data.releasePage + "download/" + version + "/PotoFlux-" + version + "-javadoc.jar";
         }
 
         doc.appendChild(docTitle);
