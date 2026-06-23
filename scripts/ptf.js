@@ -142,7 +142,7 @@ async function buildPtfList() {
         sourceDl.className = hasSource ? "version-action" : "version-note";
         if (hasSource) {
             sourceDl.textContent = "Download source code";
-            sourceDl.href = data.releasePage + "downloads/" + version + "/PotoFlux-" + version + "-sources.jar";
+            sourceDl.href = data.releasePage + "download/" + version + "/PotoFlux-" + version + "-sources.jar";
         } else {
             sourceDl.textContent = "There are no source jar for this version.";
         }
@@ -191,7 +191,7 @@ function buildPtfDocButtons(data, version, vData) {
         docDl.className = hasDocJar ? "version-action" : "version-note";
         docDl.textContent = hasDocJar ? "Download" : "There are no Javadoc jar for this version.";
         if (hasDocJar) {
-            docDl.href = data.releasePage + "downloads/" + version + "/PotoFlux-" + version + "-javadoc.jar";
+            docDl.href = data.releasePage + "download/" + version + "/PotoFlux-" + version + "-javadoc.jar";
         }
 
         doc.appendChild(docTitle);
@@ -219,7 +219,7 @@ function getDlButtons(data, version, vData) {
         const msiLink = document.createElement(hasMsi ? "a" : "i");
         msiLink.className = hasMsi ? "version-action" : "version-note";
         msiLink.textContent = hasMsi ? "Windows - msi" : "There are no .msi installers for this version.";
-        if (hasMsi) msiLink.href = `${data.releasePage}downloads/${version}/PotoFlux-${version}.msi`;
+        if (hasMsi) msiLink.href = `${data.releasePage}download/${version}/PotoFlux-${version}.msi`;
 
         dl.appendChild(title);
         dl.appendChild(msiLink);
