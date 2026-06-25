@@ -437,10 +437,6 @@ async function buildModList(metaData) {
         li.appendChild(compatSection);
 
         // === type - class def ===
-        if (lastestForLastest) {
-            li.classList.add("lastest-version");
-            hasLastForLast = true;
-        } else {
             if (type === "Alpha") {
                 li.classList.add("alpha");
                 hasAlpha = true;
@@ -454,9 +450,11 @@ async function buildModList(metaData) {
                 if (rc != null) {
                     li.classList.add(rc ? "old-rc" : "rc");
                     hasRC = true;
+                } else {
+                    li.classList.add("lastest-version");
+                    hasLastForLast = true;
                 }
             }
-        }
 
         // Set datasets for filtering
         li.dataset.type = getLiType(lastestForLastest, type, versionData.isOldRc);
