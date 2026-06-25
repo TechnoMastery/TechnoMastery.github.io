@@ -850,3 +850,10 @@ const impossibleTicTacToeMeta = {
     id: "impossibleTicTacToe"
 }
 buildModList(impossibleTicTacToeMeta);
+
+// pototoClicker
+const pototoClickerMeta = {
+    jsonLink: "https://nomutiliser.github.io/nomutiliser/pototoClicker/version.json",
+    id: "pototoClicker"
+}
+buildModList(pototoClickerMeta);
