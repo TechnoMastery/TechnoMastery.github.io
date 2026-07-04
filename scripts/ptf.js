@@ -484,13 +484,11 @@ async function buildModList(metaData) {
 }
 
 function getLiType(isLastest, rlType, isOldRc) {
+    if (rlType === "Alpha") return "alpha";
+    if (rlType === "Beta") return "beta";
+    if (isOldRc != null) return isOldRc ? "old-rc" : "rc";
     if (isLastest) return "lastest";
-    else {
-        if (rlType === "Alpha") return "alpha";
-        else if (rlType === "Beta") return "beta";
-        else if (isOldRc != null) return isOldRc ? "old-rc" : "rc";
-        else return "release";
-    }
+    return "release";
 }
 
 // ===== Filtering System =====
