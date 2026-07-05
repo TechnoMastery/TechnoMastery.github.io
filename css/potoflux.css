@@ -167,29 +167,29 @@
     font-size: 0.92rem;
 }
 
-.lastest-info, .rc-disclaimer, .alpha-disclaimer, .beta-disclaimer {
+.green-info, .orange-info, .purple-info, .red-info {
     display: block;
     margin-top: 12px;
     padding: 12px 14px;
     border-radius: var(--radius);
 }
 
-.lastest-info {
+.green-info {
     color: #14532d;
     background: rgba(22, 163, 74, 0.10);
     border: 1px solid rgba(22, 163, 74, 0.22);
 }
-.rc-disclaimer {
+.orange-info {
     color: #6d4a00;
     background: rgba(217, 119, 6, 0.1);
     border: 1px solid rgba(217, 119, 6, 0.22);
 }
-.alpha-disclaimer {
+.purple-info {
     color: #3b0764;
     background: rgba(109, 40, 217, 0.1);
     border: 1px solid rgba(109, 40, 217, 0.23);
 }
-.beta-disclaimer {
+.red-info {
     color: #7f1d1d;
     background: rgba(220, 38, 38, 0.1);
     border: 1px solid rgba(220, 38, 38, 0.22);

@@ -26,7 +26,7 @@ async function getLastestPtf() {
 
 function getRcDisclaimer() {
     const preReleaseDisclaimer = document.createElement("i");
-    preReleaseDisclaimer.className = "rc-disclaimer";
+    preReleaseDisclaimer.className = "orange-info";
     preReleaseDisclaimer.appendChild(document.createTextNode("Release Candidates (RCs) are releases that need to be tested. If they are bug-free, they "));
     const preReleaseBold = document.createElement("strong");
     preReleaseBold.textContent = "can become the official Lastest version.";
@@ -35,7 +35,7 @@ function getRcDisclaimer() {
 }
 function getAlphaDisclaimer() {
     const alphaDisclaimer = document.createElement("i");
-    alphaDisclaimer.className = "alpha-disclaimer";
+    alphaDisclaimer.className = "purple-info";
     alphaDisclaimer.appendChild(document.createTextNode("Alphas version are still in development, with "));
     const alphaBugs = document.createElement("strong");
     alphaBugs.textContent = "huge bugs";
@@ -49,7 +49,7 @@ function getAlphaDisclaimer() {
 }
 function getBetaDisclaimer() {
     const betaDisclaimer = document.createElement("i");
-    betaDisclaimer.className = "beta-disclaimer";
+    betaDisclaimer.className = "red-info";
     betaDisclaimer.appendChild(document.createTextNode("Beta versions are "));
     const betaUnfinished = document.createElement("strong");
     betaUnfinished.textContent = "unfinished";
@@ -73,7 +73,7 @@ async function buildPtfList() {
 
     // mk lastest info
     const lastestInfo = document.createElement("i");
-    lastestInfo.classList.add("lastest-info");
+    lastestInfo.classList.add("green-info");
     lastestInfo.textContent = "The Lastest version is the most stable one, featuring all confirmed functionalities. This might be what you need if you're looking to download Potoflux for the first time, or updating from a very old version.";
     mainDiv.appendChild(lastestInfo);
 
@@ -413,7 +413,7 @@ async function buildModList(metaData) {
                 strongGreen.textContent = "green";
 
                 const lastestInfo = document.createElement("i");
-                lastestInfo.classList.add("lastest-info");
+                lastestInfo.classList.add("green-info");
                 lastestInfo.appendChild(document.createTextNode("This version is the lastest for the ones in "));
                 lastestInfo.appendChild(strongGreen);
 
@@ -467,7 +467,7 @@ async function buildModList(metaData) {
 
     if (hasLastForLast) {
         const last = document.createElement("i");
-        last.classList.add("lastest-info");
+        last.classList.add("green-info");
         last.textContent = "The version labeled 'Lastest' is the lastest version for the lastest Potoflux version.";
         div.appendChild(last);
     }
