@@ -174,27 +174,6 @@
     border-radius: var(--radius);
 }
 
-.green-info {
-    color: #14532d;
-    background: rgba(22, 163, 74, 0.10);
-    border: 1px solid rgba(22, 163, 74, 0.22);
-}
-.orange-info {
-    color: #6d4a00;
-    background: rgba(217, 119, 6, 0.1);
-    border: 1px solid rgba(217, 119, 6, 0.22);
-}
-.purple-info {
-    color: #3b0764;
-    background: rgba(109, 40, 217, 0.1);
-    border: 1px solid rgba(109, 40, 217, 0.23);
-}
-.red-info {
-    color: #7f1d1d;
-    background: rgba(220, 38, 38, 0.1);
-    border: 1px solid rgba(220, 38, 38, 0.22);
-}
-
 .version-card-title,
 .version-meta {
     display: flex;
