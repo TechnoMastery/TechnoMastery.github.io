@@ -63,7 +63,6 @@ async function buildPtfList() {
     const data = await res.json();
 
     const mainDiv = document.getElementById("ptfVersions");
-    mainDiv.classList.add("version-panel");
     mainDiv.innerHTML = "";
 
     // fill main
@@ -239,7 +238,7 @@ async function buildModList(metaData) {
     const data = await res.json();
 
     const div = document.getElementById("mod-" + metaData.id + "-content");
-    div.classList.add("mod-version-panel");
+    div.classList.add("version-panel");
     div.innerHTML = "";
 
     // ===== MAIN INFOS =====

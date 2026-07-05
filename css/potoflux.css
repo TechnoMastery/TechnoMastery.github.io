@@ -14,23 +14,12 @@
     border-top: 0;
 }
 
-#ptfVersions,
-.mod-version-panel {
+.version-panel {
     margin: 18px 0 30px;
     padding: 22px;
     background: linear-gradient(180deg, rgba(17, 106, 123, 0.06), rgba(255, 255, 255, 0.92));
     border: 1px solid var(--line);
     border-radius: var(--radius);
-}
-
-.section-anchor {
-    display: block;
-    position: relative;
-    top: -12px;
-}
-
-.version-panel,
-.mod-version-panel {
     color: var(--text-muted);
 }
 
@@ -221,8 +210,7 @@
 }
 
 @media (max-width: 620px) {
-    #ptfVersions,
-    .mod-version-panel {
+    .version-panel {
         padding: 16px;
     }
 
