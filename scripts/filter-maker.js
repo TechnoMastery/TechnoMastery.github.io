@@ -48,7 +48,7 @@ function createFilterSection(mainDivId, ...filters) {
                 input.checked = defaultValue;
             });
         });
-        // TODO: apply filters
+        applyFilters(mainDivId, filters);
     });
 
     header.appendChild(headerTitle);
@@ -81,7 +81,7 @@ function createFilterSection(mainDivId, ...filters) {
             input.type = "checkbox";
             input.className = id;
             input.checked = defaultValue;
-            // input.addEventListener('change', () => ) TODO: apply filters
+            input.addEventListener('change', () => applyFilters(mainDivId, filters));
 
             const custom = document.createElement("span");
             custom.className = "custom-checkbox";
@@ -103,7 +103,6 @@ function createFilterSection(mainDivId, ...filters) {
     container.appendChild(sections);
     return container;
 }
-
 function applyFilters(mainDivId, ...filters) {
     const filtersValues = {};
     const filterMods = {};
@@ -125,8 +124,14 @@ function applyFilters(mainDivId, ...filters) {
             let passesFilter = needAll;
             Object.entries(parameters).forEach(([parameterID, checked]) => {
                 const hasParameter = card.dataset[filterID+"|"+parameterID] === "true";
-                // TODO: check if passes + end
-            })
-        })
-    })
+                if (checked) {
+                    if (needAll && !hasParameter) passesFilter = false;
+                    if (!needAll && hasParameter) passesFilter = true;
+                }
+            });
+            if (!passesFilter) displayed = false;
+        });
+        if (displayed) card.classList.remove("hide");
+        else card.cardList.add("hide");
+    });
 }
