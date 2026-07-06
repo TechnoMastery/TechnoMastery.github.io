@@ -1,26 +1,26 @@
 const typeFilterSection = {
     title: "Version types",
-    id: "filter-section-type",
+    id: "version-type",
     mode: "any",
     parameters: {
         filterLastest: {
             defaultValue: true,
-            id: "filter-name-lastest",
+            id: "lastest-releases",
             name: "Lastest and Releases"
         },
         filterRC: {
             defaultValue: true,
-            id: "filter-name-rc",
+            id: "rc",
             name: "Release Candidates (RCs)"
         },
         filterOldRC: {
             defaultValue: false,
-            id: "filter-name-old-rc",
+            id: "old-rc",
             name: "Old RCs"
         },
         filterAlphaBeta: {
             defaultValue: false,
-            id: "filter-name-beta-alpha",
+            id: "alpha-beta",
             name: "Alphas / Betas"
         }
     }
@@ -48,7 +48,7 @@ function createFilterSection(mainDivId, ...filters) {
                 input.checked = defaultValue;
             });
         });
-        applyFilters(mainDivId, filters);
+        applyFilters(mainDivId, ...filters);
     });
 
     header.appendChild(headerTitle);
@@ -73,7 +73,7 @@ function createFilterSection(mainDivId, ...filters) {
         const sectionOptions = document.createElement("div");
         sectionOptions.className = "filter-options";
 
-        for (const [title, {defaultValue, id, name}] of Object.entries(filters.parameters)) {
+        for (const [title, {defaultValue, id, name}] of Object.entries(filter.parameters)) {
             const option = document.createElement("label");
             option.className = "filter-checkbox-label";
             // input
@@ -81,7 +81,7 @@ function createFilterSection(mainDivId, ...filters) {
             input.type = "checkbox";
             input.className = id;
             input.checked = defaultValue;
-            input.addEventListener('change', () => applyFilters(mainDivId, filters));
+            input.addEventListener('change', () => applyFilters(mainDivId, ...filters));
 
             const custom = document.createElement("span");
             custom.className = "custom-checkbox";
@@ -107,7 +107,7 @@ function applyFilters(mainDivId, ...filters) {
     const filtersValues = {};
     const filterMods = {};
 
-    filters.forEach(({id: filterID, parameters, mode}) => {
+    filters.forEach(({id: filterID, mode, parameters}) => {
         filtersValues[filterID] = {};
         filterMods[filterID] = mode;
         Object.entries(parameters).forEach(([, {id: parameterID}]) => {
@@ -123,7 +123,7 @@ function applyFilters(mainDivId, ...filters) {
             const needAll = filterMods[filterID] === "all";
             let passesFilter = needAll;
             Object.entries(parameters).forEach(([parameterID, checked]) => {
-                const hasParameter = card.dataset[filterID+"|"+parameterID] === "true";
+                const hasParameter = card.getAttribute(filterID+"|"+parameterID) === "true";
                 if (checked) {
                     if (needAll && !hasParameter) passesFilter = false;
                     if (!needAll && hasParameter) passesFilter = true;
@@ -132,6 +132,12 @@ function applyFilters(mainDivId, ...filters) {
             if (!passesFilter) displayed = false;
         });
         if (displayed) card.classList.remove("hide");
-        else card.cardList.add("hide");
+        else card.classList.add("hide");
     });
+}
+
+function getVersionType(rlType, isOldRc) {
+    if (rlType === ("Alpha" || "Beta")) return "alpha-beta";
+    if (isOldRc != null) return isOldRc ? "old-rc" : "rc";
+    return "lastest-releases";
 }
