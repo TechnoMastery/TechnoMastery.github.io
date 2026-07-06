@@ -274,6 +274,13 @@ footer p + p {
     border: 1px solid rgba(220, 38, 38, 0.22);
 }
 
+.green-info, .orange-info, .purple-info, .red-info {
+    display: block;
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+}
+
 @media (max-width: 720px) {
     header,
     main,
