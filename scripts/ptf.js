@@ -99,19 +99,29 @@ async function buildPtfList() {
         li.className = "version-card";
         li.id = `ptf-v${version}-card`;
         const isLastest = version === data.lastestVersion;
-        if (isLastest) li.classList.add("lastest-version");
+        if (isLastest) {
+            li.classList.add("modifier");
+            li.classList.add("lastest-version");
+        }
 
         const rlType = vData.type == null ? "Release" : vData.type;
         if (!isLastest) {
 
-            if (rlType === "Alpha")
+            if (rlType === "Alpha") {
+                li.classList.add("modifier");
                 li.classList.add("alpha");
-            else if (rlType === "Beta")
+            }
+            else if (rlType === "Beta") {
+                li.classList.add("modifier");
                 li.classList.add("beta");
+            }
 
             else {
                 const rc = vData.isOldRc;
-                if (rc != null) li.classList.add(rc ? "old-rc" : "rc");
+                if (rc != null) {
+                    li.classList.add("modifier");
+                    li.classList.add(rc ? "old-rc" : "rc");
+                }
             }
 
         }
@@ -285,7 +295,7 @@ async function buildModList(metaData) {
     for (const [modVersion, versionData] of Object.entries(versions)) {
         const li = document.createElement("li");
         li.id = "mod-" + metaData.id + "-v" + modVersion;
-        li.className = "version-card";
+        li.classList.add("version-card");
 
         const type = versionData.type == null ? "Release" : versionData.type;
 
@@ -437,17 +447,21 @@ async function buildModList(metaData) {
 
         // === type - class def ===
         if (type === "Alpha") {
+            li.classList.add("modifier");
             li.classList.add("alpha");
             hasAlpha = true;
         } else if (type === "Beta") {
+            li.classList.add("modifier");
             li.classList.add("beta");
             hasBeta = true;
         } else {
             const rc = versionData.isOldRc;
             if (rc != null) {
+                li.classList.add(rc ? "old-rc" : "modifier");
                 li.classList.add(rc ? "old-rc" : "rc");
                 hasRC = true;
             } else if (lastestForLastest) {
+                li.classList.add("modifier");
                 li.classList.add("lastest-version");
                 hasLastForLast = true;
             }

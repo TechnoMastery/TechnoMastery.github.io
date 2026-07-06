@@ -53,10 +53,7 @@
     box-shadow: 0 16px 32px rgba(28, 45, 61, 0.15);
 }
 
-.version-card.lastest-version::after,
-.version-card.rc::after, .version-card.old-rc::after,
-.version-card.alpha::after,
-.version-card.beta::after {
+.version-card.modifier::after {
     position: absolute;
     top: 12px;
     right: 12px;
@@ -222,10 +219,7 @@
         padding-right: 0;
     }
 
-    .version-card.lastest-version::after,
-    .version-card.rc::after, .version-card.old-rc::after,
-    .version-card.alpha::after,
-    .version-card.beta::after {
+    .version-card.modifier::after {
         position: static;
         align-self: flex-start;
         order: -1;
