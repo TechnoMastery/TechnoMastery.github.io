@@ -305,10 +305,12 @@ async function buildModList(metaData) {
     const lastestForPtf = data.lastestForPtf;
     const lastestPtf = await getLastestPtf();
 
-    const versionsTitle = document.createElement("span");
-    versionsTitle.textContent = (!versions || Object.keys(versions).length === 0) ? "No versions published." : "Versions of this mod :";
-
-    div.appendChild(versionsTitle);
+    if (!versions || Object.keys(versions).length === 0) {
+        const versionsTitle = document.createElement("span");
+        versionsTitle.textContent = "No versions published.";
+        versionsTitle.className = "orange-info"
+        div.appendChild(versionsTitle);
+    }
 
     const rootUl = document.createElement("ul");
     rootUl.className = "version-list";
