@@ -137,7 +137,7 @@ function applyFilters(mainDivId, ...filters) {
 }
 
 function getVersionType(rlType, isOldRc) {
-    if (rlType === ("Alpha" || "Beta")) return "alpha-beta";
+    if ((rlType === "Alpha") || (rlType === "Beta")) return "alpha-beta";
     if (isOldRc != null) return isOldRc ? "old-rc" : "rc";
     return "lastest-releases";
 }
