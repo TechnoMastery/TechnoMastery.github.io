@@ -245,24 +245,33 @@ function getDlButtons(data, version, vData) {
     dl.className = "version-meta";
 
     const hasMsi = vData.hasMsi == null ? true : vData.hasMsi;
+    const hasRpm = vData.hasRpm == null ? true : vData.hasRpm;
 
-    if (hasMsi) {
+    if (hasMsi || hasRpm) {
         const title = document.createElement("strong");
         title.textContent = "Available installers :";
-
-        const msiLink = document.createElement(hasMsi ? "a" : "i");
-        msiLink.className = hasMsi ? "version-action" : "version-note";
-        msiLink.textContent = hasMsi ? "Windows - msi" : "There are no .msi installers for this version.";
-        if (hasMsi) msiLink.href = `${data.releasePage}download/${version}/PotoFlux-${version}.msi`;
-
         dl.appendChild(title);
-        dl.appendChild(msiLink);
     } else {
         const fallback = document.createElement("i");
         fallback.className = "version-note";
         fallback.textContent = "There are no installer for this version.";
         dl.appendChild(fallback);
+        return dl;
     }
+
+    const msiLink = document.createElement(hasMsi ? "a" : "i");
+    msiLink.className = hasMsi ? "version-action" : "version-note";
+    msiLink.textContent = hasMsi ? "Windows - msi" : "There are no .msi installers for this version.";
+    if (hasMsi) msiLink.href = `${data.releasePage}download/${version}/PotoFlux-${version}.msi`;
+
+    dl.appendChild(msiLink);
+
+    const rpmLink = document.createElement(hasRpm ? "a" : "i");
+    rpmLink.className = hasRpm ? "version-action" : "version-note";
+    rpmLink.textContent = hasRpm ? "Linux - rpm" : "There are no .rpm installers  for this version.";
+    if (hasRpm) rpmLink.href = `${data.releasePage}download/${version}/Potoflux-${version}-1.x86_64.rpm`;
+
+    dl.appendChild(rpmLink);
 
     return dl;
 }
