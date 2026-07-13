@@ -29,7 +29,7 @@ const installersRequirementFilters = {
     mode: "all",
     parameters: {
         msi: {
-            defaultValue: true,
+            defaultValue: false,
             id: "has-msi",
             name: "Windows (.msi)"
         },
