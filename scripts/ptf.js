@@ -157,7 +157,7 @@ async function buildPtfList() {
         li.setAttribute("doc-filters|has-online-doc", (vData.hasOnlineDoc == null ? true : vData.hasOnlineDoc).toString());
         li.setAttribute("doc-filters|has-doc-jar", (vData.hasDocJar == null ? true : vData.hasDocJar).toString());
         li.setAttribute("installers-filters|has-msi", (vData.hasMsi == null ? true : vData.hasMsi).toString());
-        li.setAttribute("installers-filters|has-rpm", false.toString());
+        li.setAttribute("installers-filters|has-rpm", (vData.hasRpm == null ? true : vData.hasRpm).toString());
 
         // title
         const titleLink = document.createElement("a");
