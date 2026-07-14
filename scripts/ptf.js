@@ -594,3 +594,10 @@ const pototoClickerMeta = {
     id: "pototoClicker"
 }
 buildModList(pototoClickerMeta);
+
+// pototoClicker
+const keepFocusMeta = {
+    jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/keepFocus.json",
+    id: "keepFocus"
+}
+buildModList(keepFocusMeta);
