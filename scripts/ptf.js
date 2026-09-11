@@ -259,19 +259,21 @@ function getDlButtons(data, version, vData) {
         return dl;
     }
 
-    const msiLink = document.createElement(hasMsi ? "a" : "i");
-    msiLink.className = hasMsi ? "version-action" : "version-note";
-    msiLink.textContent = hasMsi ? "Windows - msi" : "There are no .msi installers for this version.";
-    if (hasMsi) msiLink.href = `${data.releasePage}download/${version}/PotoFlux-${version}.msi`;
+    if (hasMsi) {
+        const msiLink = document.createElement("a");
+        msiLink.className = "version-action";
+        msiLink.textContent = "Windows - msi";
+        msiLink.href = `${data.releasePage}download/${version}/PotoFlux-${version}.msi`;
+        dl.appendChild(msiLink);
+    }
 
-    dl.appendChild(msiLink);
-
-    const rpmLink = document.createElement(hasRpm ? "a" : "i");
-    rpmLink.className = hasRpm ? "version-action" : "version-note";
-    rpmLink.textContent = hasRpm ? "Linux - rpm" : "There are no .rpm installers  for this version.";
-    if (hasRpm) rpmLink.href = `${data.releasePage}download/${version}/Potoflux-${version}-1.x86_64.rpm`;
-
-    dl.appendChild(rpmLink);
+    if (hasRpm) {
+        const rpmLink = document.createElement("a");
+        rpmLink.className = "version-action";
+        rpmLink.textContent = "Linux - rpm";
+        rpmLink.href = `${data.releasePage}download/${version}/Potoflux-${version}-1.x86_64.rpm`;
+        dl.appendChild(rpmLink);
+    }
 
     return dl;
 }
