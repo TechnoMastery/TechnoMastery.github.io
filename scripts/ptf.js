@@ -1,5 +1,8 @@
 // ===== PTF =====
 const ptfLink = "https://technomastery.github.io/PotoFluxAppData/ptfVersion/main.json";
+const officialModsFile = "https://technomastery.github.io/PotoFluxAppData/ptfVersion/official_mods.json";
+
+const registeredMods = [];
 
 const docRequirementFilters = {
     title: "Documentation requirements",
@@ -510,7 +513,7 @@ async function buildModList(metaData) {
         // Set attributes for filtering
         li.setAttribute("version-type|"+getVersionType(type, versionData.isOldRc), true.toString());
         li.setAttribute("doc-filters|has-sources", hasSources.toString());
-        li.setAttribute("doc-filter|has-online-doc", hasOnlineDoc.toString());
+        li.setAttribute("doc-filters|has-online-doc", hasOnlineDoc.toString());
         li.setAttribute("doc-filters|has-doc-jar", hasDocJar.toString());
         // li.dataset.lastestFor = JSON.stringify(lastestFor); todo
         // li.dataset.compatibleWith = JSON.stringify(compatibleWith); todo
@@ -548,58 +551,60 @@ buildPtfList();
 
 // ===== build for all mods =====
 
-// card learning
-const cardLearningMeta = {
-    jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/cardLearning.json",
-    id: "cardLearning"
-}
-buildModList(cardLearningMeta);
+async function preBuildMods() {
+    const res = await fetch(officialModsFile);
+    const data = await res.json();
 
-// todomod
-const todomodMeta = {
-    jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/todomod.json",
-    id: "todoMod"
-}
-buildModList(todomodMeta);
+    const modsSummary = document.getElementById("mods-summary");
+    const modsDescs = document.getElementById("mods-descs");
 
-// encrypmod
-const encrypModMeta = {
-    jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/encrypMod.json",
-    id: "encrypMod"
-}
-buildModList(encrypModMeta);
+    if (data.length <= 0) return;
 
-// bad life coach
-const badlifecoachMeta = {
-    jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/badLifeCoach.json",
-    id: "badlifecoach"
-}
-buildModList(badlifecoachMeta);
+    const summaryUl = document.createElement("ul");
+    modsSummary.innerHTML = "";
+    modsSummary.appendChild(summaryUl);
 
-// potoModCool
-const potoModCoolMeta = {
-    jsonLink: "https://nomutiliser.github.io/nomutiliser/potoModCool/versions.json",
-    id: "potoModCool"
-}
-// buildModList(potoModCoolMeta);
+    modsDescs.innerHTML = "";
 
-// impossible tic-tac-toe
-const impossibleTicTacToeMeta = {
-    jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/impossibleTicTacToe.json",
-    id: "impossibleTicTacToe"
-}
-buildModList(impossibleTicTacToeMeta);
+    for (const link of data) {
+        const modRes = await fetch(link);
+        const modData = await modRes.json();
 
-// pototoClicker
-const pototoClickerMeta = {
-    jsonLink: "https://nomutiliser.github.io/nomutiliser/pototoClicker/version.json",
-    id: "pototoClicker"
-}
-buildModList(pototoClickerMeta);
+        // build summary
+        const a = document.createElement("a");
+        a.textContent = modData.displayName;
+        a.href = "#mod-" + modData.id;
 
-// pototoClicker
-const keepFocusMeta = {
-    jsonLink: "https://technomastery.github.io/PotoFluxAppData/modVersions/keepFocus.json",
-    id: "keepFocus"
+        const li = document.createElement("li");
+        li.appendChild(a);
+        summaryUl.appendChild(li);
+
+        // create desc
+        const h3 = document.createElement("h3");
+        h3.textContent = modData.displayName;
+        h3.id = "mod-" + modData.id;
+
+        const div = document.createElement("div");
+        div.id = "mod-" + modData.id + "-content";
+        const placeholder = document.createElement("i");
+        placeholder.className = "red-info";
+        placeholder.textContent = "Can't get data for this mod ! It could not have been published yet, an error happened in the script or the server failed to fetch.";
+        div.appendChild(placeholder);
+
+        modsDescs.appendChild(h3);
+        modsDescs.appendChild(div);
+
+        registeredMods.push({
+            jsonLink: link,
+            id: modData.id
+        });
+
+    }
 }
-buildModList(keepFocusMeta);
+async function buildAllMods() {
+    await preBuildMods();
+    await Promise.all(
+        registeredMods.map(meta => buildModList(meta))
+    )
+}
+buildAllMods();
