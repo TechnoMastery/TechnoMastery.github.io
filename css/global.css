@@ -16,6 +16,30 @@
     --radius: 8px;
 }
 
+.coloned-display {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px 24px;
+}
+
+footer h2 {
+    margin-top: 0;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 600px) {
+    .sources-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+img {
+    align-content: center;
+    border-radius: 15px;
+    height: auto;
+    max-width: 100%;
+}
+
 .hide {
     display: none !important;
 }
@@ -35,9 +59,9 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     color: var(--text);
     background:
-        linear-gradient(180deg, rgba(17, 106, 123, 0.12), transparent 360px),
-        radial-gradient(circle at top right, rgba(217, 119, 6, 0.14), transparent 320px),
-        var(--bg);
+            linear-gradient(180deg, rgba(17, 106, 123, 0.12), transparent 360px),
+            radial-gradient(circle at top right, rgba(217, 119, 6, 0.14), transparent 320px),
+            var(--bg);
     line-height: 1.65;
 }
 
@@ -140,10 +164,18 @@ h3 {
     font-size: 1.25rem;
 }
 
-p {
+p, figcaption {
     max-width: 760px;
     margin: 0 auto 14px;
     color: var(--text-muted);
+}
+
+figcaption {
+    text-align: center;
+}
+
+hr {
+    color: white;
 }
 
 main ul,
@@ -206,6 +238,25 @@ textarea {
     border: 1px solid #cbd8e1;
     border-radius: var(--radius);
     font: inherit;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+.tooltiped {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    max-width: 300px;
+    width: max-content;
+    white-space: normal;
+    z-index: 10;
+}
+.tooltip:hover .tooltiped {
+    display: block;
 }
 
 input:focus,
